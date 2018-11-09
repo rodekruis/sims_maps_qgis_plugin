@@ -19,7 +19,7 @@ from functools import partial
 from PyQt5.QtWidgets import QAction, QMessageBox, QLineEdit, QCheckBox
 from PyQt5.QtCore import QFile
 from PyQt5.QtXml import QDomDocument
-#from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon
 from PyQt5.uic import loadUi
 from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
@@ -43,8 +43,8 @@ class SimsMaps:
         print(u'initGui')
 
         self.toolbar = self.iface.addToolBar(u'SIMS')
-        #icon = QIcon(u'icon.png')
-        self.actionCreateLayout = QAction(u'SIMS Map', parent=self.iface.mainWindow())
+        icon = QIcon(u'/home/raymond/git/QGIS/images/icons/edit_layout.svg')
+        self.actionCreateLayout = QAction(icon, u'SIMS Map', parent=self.iface.mainWindow())
         self.toolbar.addAction(self.actionCreateLayout)
 
         dialogFile = os.path.join(self.pluginDir, u'create_layout_dialog.ui')
@@ -232,8 +232,8 @@ class SimsMaps:
         designer.dialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
 
         tb = designer.actionsToolbar()
-        #icon = QIcon(u'icon.png')
-        action = QAction(u'Edit SIMS map', parent=designer)
+        icon = QIcon(u'/home/raymond/git/QGIS/images/icons/edit_layout.svg')
+        action = QAction(icon, u'Edit SIMS map', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
 
         tb.addAction(action)

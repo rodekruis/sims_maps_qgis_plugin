@@ -40,7 +40,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QLabel" name="labelProjName">
+     <widget class="QLabel" name="labelRcTitle">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -50,7 +50,7 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEditProjName"/>
+     <widget class="QLineEdit" name="lineEditRcTitle"/>
     </item>
    </layout>
   </widget>
@@ -86,7 +86,7 @@
   </widget>
  </widget>
  <tabstops>
-  <tabstop>lineEditProjName</tabstop>
+  <tabstop>lineEditRcTitle</tabstop>
   <tabstop>lineEditApproved1_2</tabstop>
   <tabstop>lineEditChecked1_2</tabstop>
   <tabstop>lineEditClientApp1_2</tabstop>
