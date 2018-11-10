@@ -45,7 +45,7 @@ class SimsMaps:
         self.toolBar = self.iface.addToolBar(u'SIMS')
         #self.toolButtonCreateLayout = QToolButton()
         #self.toolBar.addAction(self.toolButtonCreateLayout)
-        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_cross.svg')
+        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_crystal.svg')
         self.actionCreateLayout = QAction(icon, u'SIMS Maps Cross', parent=self.iface.mainWindow())
         self.toolBar.addAction(self.actionCreateLayout)
         '''
@@ -241,7 +241,7 @@ class SimsMaps:
         designer.dialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
 
         tb = designer.actionsToolbar()
-        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_cross.svg')
+        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_crystal.svg')
         action = QAction(icon, u'Edit SIMS map', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
 
