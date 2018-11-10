@@ -16,7 +16,7 @@ import os
 from datetime import datetime
 from functools import partial
 
-from PyQt5.QtWidgets import QAction, QMessageBox, QLineEdit, QCheckBox
+from PyQt5.QtWidgets import QAction, QMessageBox, QLineEdit, QCheckBox, QToolButton
 from PyQt5.QtCore import QFile
 from PyQt5.QtXml import QDomDocument
 from PyQt5.QtGui import QIcon
@@ -42,10 +42,19 @@ class SimsMaps:
     def initGui(self):
         print(u'initGui')
 
-        self.toolbar = self.iface.addToolBar(u'SIMS')
-        icon = QIcon(u'/home/raymond/git/QGIS/images/icons/edit_layout.svg')
-        self.actionCreateLayout = QAction(icon, u'SIMS Map', parent=self.iface.mainWindow())
-        self.toolbar.addAction(self.actionCreateLayout)
+        self.toolBar = self.iface.addToolBar(u'SIMS')
+        #self.toolButtonCreateLayout = QToolButton()
+        #self.toolBar.addAction(self.toolButtonCreateLayout)
+        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_cross.svg')
+        self.actionCreateLayout = QAction(icon, u'SIMS Maps Cross', parent=self.iface.mainWindow())
+        self.toolBar.addAction(self.actionCreateLayout)
+        '''
+        w = self.toolBar.widgetForAction(self.actionCreateLayout)
+        print(w)
+        w.setPopupMode(QToolButton.MenuButtonPopup)
+        self.toolButtonCreateLayout = self.toolBar.addAction(self.actionCreateLayout)
+        print(self.actionCreateLayout)
+        '''
 
         dialogFile = os.path.join(self.pluginDir, u'create_layout_dialog.ui')
         self.createLayoutDialog = loadUi(dialogFile)
@@ -75,10 +84,10 @@ class SimsMaps:
         except Exception:
             pass
 
-        # remove toolbar
+        # remove toolBar
         self.iface.removeToolBarIcon(self.actionCreateLayout)
-        self.iface.mainWindow().removeToolBar(self.toolbar)
-        del self.toolbar
+        self.iface.mainWindow().removeToolBar(self.toolBar)
+        del self.toolBar
 
         # TODO: loop designers to remove connections and actions
 
@@ -232,7 +241,7 @@ class SimsMaps:
         designer.dialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
 
         tb = designer.actionsToolbar()
-        icon = QIcon(u'/home/raymond/git/QGIS/images/icons/edit_layout.svg')
+        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_cross.svg')
         action = QAction(icon, u'Edit SIMS map', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
 
