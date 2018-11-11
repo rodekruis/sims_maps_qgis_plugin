@@ -1,15 +1,13 @@
 import os
 import argparse
 import shutil
+import csv
 
 # defaults
 outputDir = 'sims_maps_generated'
 
 parser = argparse.ArgumentParser(description=u'Create plugin directory including dependency files from other repos.')
 parser.add_argument(u'-d', default=outputDir, help=u'destination directory')
-# parser.add_argument('--sum', dest='accumulate', action='store_const',
-#                     const=sum, default=max,
-#                     help='sum the integers (default: find the max)')
 
 args = parser.parse_args()
 print(args)
@@ -17,6 +15,7 @@ print(args)
 repoDir = os.path.dirname(os.path.abspath(__file__))
 srcDir = os.path.join(repoDir, u'sims_maps')
 destDir = os.path.join(repoDir, args.d)
+gitDir = os.path.dirname(repoDir)
 
 print(srcDir)
 print(destDir)
@@ -40,4 +39,64 @@ for file in files:
 shutil.copy2(os.path.join(srcDir, u'metadata.txt'), destDir)
 
 # copy data dir
-shutil.copytree(os.path.join(srcDir, u'data'), os.path.join(destDir, u'data'))
+destDataDir = os.path.join(destDir, u'data')
+shutil.copytree(os.path.join(srcDir, u'data'), destDataDir)
+
+# copy logos from local clone of git@github.com:IFRCGo/logos.git
+#print('- logos -')
+logosSrcDir = os.path.join(gitDir, u'logos')
+#print(logosSrcDir)
+logosDestDir = os.path.join(destDataDir, 'logos')
+os.makedirs(logosDestDir)
+
+csvFileName = os.path.join(logosDestDir, u'logos.csv')
+csvFile = open(csvFileName, 'w')
+csvWriter = csv.writer(csvFile, delimiter=';', quoting=csv.QUOTE_NONNUMERIC, quotechar='"')
+
+csvWriter.writerow([u'code', u'country', u'society', u'logo'])
+
+nsLogosSrcDir = os.path.join(logosSrcDir, u'national-societies')
+for file in os.listdir(nsLogosSrcDir):
+    if os.path.isdir(os.path.join(nsLogosSrcDir, file)):
+        #print(file)
+        # find svg
+        nsSvgFile = None
+        nsName = None
+        nsCountry = None
+        nsCode = None
+        nsDir = os.path.join(nsLogosSrcDir, file)
+        for filename in os.listdir(nsDir):
+            fn, ext = os.path.splitext(filename)
+            if ext.lower() == u'.svg':
+                #print('  ::  ', filename)
+                nsSvgFile = filename
+            #if ext.lower() == u'.eps':
+            #    print(filename)
+            if filename == u'README.md':
+                mdFile = open(os.path.join(nsDir, filename), mode='r')
+                line = mdFile.readline().strip().decode('cp1252')
+                #print(line)
+                nsName = line.replace(u'#',u'').strip()
+                #print(nsName)
+
+                line = mdFile.readline().strip().decode('cp1252')
+                mdFile.close()
+                #print(line)
+                parts = line.split(' - ')
+                #print(parts)
+                nsCountry = parts[0]
+                try:
+                    nsCode = parts[1]
+                    #print(nsName, nsCountry, nsCode)
+                except Exception:
+                    pass
+                    print(u'Error in parsing README.md for {0}'.format(nsCountry))
+            if nsSvgFile is not None and \
+                nsName is not None and \
+                nsCountry is not None and \
+                nsCode is not None:
+                srcFile = os.path.join(nsDir, nsSvgFile)
+                #print(srcFile)
+                shutil.copy2(srcFile, logosDestDir)
+                csvWriter.writerow([nsCode, nsCountry, nsName, nsSvgFile])
+csvFile.close()
