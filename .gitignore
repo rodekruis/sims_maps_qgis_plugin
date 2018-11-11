@@ -52,3 +52,5 @@ docs/_build/
 
 # PyBuilder
 target/
+
+sims_maps_generated
