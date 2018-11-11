@@ -60,7 +60,7 @@ for file in os.listdir(nsLogosSrcDir):
     if os.path.isdir(os.path.join(nsLogosSrcDir, file)):
         #print(file)
         # find svg
-        nsSvgFile = None
+        nsSvgFiles = []
         nsName = None
         nsCountry = None
         nsCode = None
@@ -69,9 +69,9 @@ for file in os.listdir(nsLogosSrcDir):
             fn, ext = os.path.splitext(filename)
             if ext.lower() == u'.svg':
                 #print('  ::  ', filename)
-                nsSvgFile = filename
+                nsSvgFiles.append(filename)
             #if ext.lower() == u'.eps':
-            #    print(filename)
+            #    pass
             if filename == u'README.md':
                 mdFile = open(os.path.join(nsDir, filename), mode='r')
                 line = mdFile.readline().strip().decode('cp1252')
@@ -91,10 +91,10 @@ for file in os.listdir(nsLogosSrcDir):
                 except Exception:
                     pass
                     print(u'Error in parsing README.md for {0}'.format(nsCountry))
-            if nsSvgFile is not None and \
-                nsName is not None and \
-                nsCountry is not None and \
-                nsCode is not None:
+        if  nsName is not None and \
+            nsCountry is not None and \
+            nsCode is not None:
+            for nsSvgFile in nsSvgFiles:
                 srcFile = os.path.join(nsDir, nsSvgFile)
                 #print(srcFile)
                 shutil.copy2(srcFile, logosDestDir)
