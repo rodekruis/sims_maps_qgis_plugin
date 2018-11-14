@@ -30,7 +30,11 @@ from qgis.core import (QgsProject,
 def classFactory(iface):
     return SimsMaps(iface)
 
-
+def resolve(name, basepath=None):
+    if not basepath:
+      basepath = os.path.dirname(os.path.realpath(__file__))
+    return os.path.join(basepath, name)
+	
 class SimsMaps:
 
     def __init__(self, iface):
@@ -45,7 +49,7 @@ class SimsMaps:
         self.toolBar = self.iface.addToolBar(u'SIMS')
         #self.toolButtonCreateLayout = QToolButton()
         #self.toolBar.addAction(self.toolButtonCreateLayout)
-        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_crystal.svg')
+        icon = QIcon(resolve(u'create_layout_crystal.svg'))
         self.actionCreateLayout = QAction(icon, u'SIMS Maps Cross', parent=self.iface.mainWindow())
         self.toolBar.addAction(self.actionCreateLayout)
         '''
@@ -241,7 +245,7 @@ class SimsMaps:
         designer.dialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
 
         tb = designer.actionsToolbar()
-        icon = QIcon(u'/home/raymond/git/sims_maps_qgis_plugin/sims_maps/create_layout_crystal.svg')
+        icon = QIcon(resolve(u'create_layout_crystal.svg'))
         action = QAction(icon, u'Edit SIMS map', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
 
