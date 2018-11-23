@@ -5,10 +5,13 @@ a fast and consistent way. The plugin will run in QGIS3 versions from 3.4.0 and 
 
 ## Setup development environment
 
-* Clone git repository
+* Clone this git repository
+* Clone NS logos git repository in same directory: https://github.com/raymondnijssen/logos
 ```
 /path/to/git/
-|--sims_maps_qgis_plugin
+|--sims_maps_qgis_plugin/
+|--logos/
+
 ```
 
 * Run the generate_plugin which will by default generate a directory with all the plugin content.
@@ -22,4 +25,3 @@ ln -s ~/git/sims_maps_qgis_plugin/sims_maps_generated/ sims_maps
 ```
 
 * Start or restart QGIS3. Reload the plugin with the experimental "Plugin Reloader" plugin.
-
