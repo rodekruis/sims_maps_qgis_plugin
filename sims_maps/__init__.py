@@ -17,30 +17,29 @@ from datetime import datetime
 from functools import partial
 
 from PyQt5.QtWidgets import QAction, QMessageBox, QLineEdit, QCheckBox, QToolButton
-from PyQt5.QtCore import QFile
+from PyQt5.QtCore import QFile, Qt
 from PyQt5.QtXml import QDomDocument
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
 from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
                        QgsPrintLayout,
                        QgsReadWriteContext)
+from .logos import RcLogos
 
 
 def classFactory(iface):
     return SimsMaps(iface)
 
-def resolve(name, basepath=None):
-    if not basepath:
-      basepath = os.path.dirname(os.path.realpath(__file__))
-    return os.path.join(basepath, name)
-	
+
 class SimsMaps:
 
     def __init__(self, iface):
         self.iface = iface
         self.pluginDir = os.path.dirname(__file__)
         self.dataPath = os.path.join(self.pluginDir, u'data')
+        self.logos = RcLogos()
+        self.logos.readFromCsv(os.path.join(self.dataPath, u'logos', u'logos.csv'))
 
 
     def initGui(self):
@@ -49,7 +48,7 @@ class SimsMaps:
         self.toolBar = self.iface.addToolBar(u'SIMS')
         #self.toolButtonCreateLayout = QToolButton()
         #self.toolBar.addAction(self.toolButtonCreateLayout)
-        icon = QIcon(resolve(u'create_layout_crystal.svg'))
+        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg')
         self.actionCreateLayout = QAction(icon, u'SIMS Maps Cross', parent=self.iface.mainWindow())
         self.toolBar.addAction(self.actionCreateLayout)
         '''
@@ -68,6 +67,7 @@ class SimsMaps:
         self.iface.layoutDesignerOpened.connect(self.designerOpened)
         self.iface.layoutDesignerClosed.connect(self.designerClosed)
         self.actionCreateLayout.triggered.connect(self.showLayoutDialog)
+        self.createLayoutDialog.comboBoxNsLogo.currentIndexChanged.connect(self.updateLabelPreview)
 
         # TODO: loop existing designers to add connections and actions
 
@@ -107,6 +107,17 @@ class SimsMaps:
         for file in os.listdir(self.dataPath):
             if file.endswith(u'.qpt'):
                 cb.addItem(file)
+
+        # ns logos
+        cb = self.createLayoutDialog.comboBoxNsLogo
+        while cb.count() > 0:
+            cb.removeItem(0)
+        for fn in self.logos.getFileNames():
+            cb.addItem(fn)
+
+        #cb.addItem(u'croissant_rouge_tunisien.svg')
+        #cb.addItem(u'Sierra Leone Red Cross.svg')
+
 
         self.createLayoutDialog.show()
 
@@ -245,7 +256,7 @@ class SimsMaps:
         designer.dialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
 
         tb = designer.actionsToolbar()
-        icon = QIcon(resolve(u'create_layout_crystal.svg'))
+        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg')
         action = QAction(icon, u'Edit SIMS map', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
 
@@ -264,3 +275,14 @@ class SimsMaps:
             print(u'Layout does not contain item: \'{0}\''.format(itemId))
             return None
         return item
+
+    def updateLabelPreview(self):
+        #self.createLayoutDialog.labelImagePreview.setAlignment(Qt.AlignCenter)
+        #milis_logo.setAlignment(Qt.AlignCenter)
+        filename = self.createLayoutDialog.comboBoxNsLogo.currentText()
+        filename = os.path.join(self.dataPath, u'logos', filename)
+        print(filename)
+        pm = QPixmap(filename)
+        w = self.createLayoutDialog.labelImagePreview.width()
+        h = self.createLayoutDialog.labelImagePreview.height()
+        self.createLayoutDialog.labelImagePreview.setPixmap(pm.scaled(w, h, Qt.KeepAspectRatio))

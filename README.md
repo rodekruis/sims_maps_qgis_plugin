@@ -14,7 +14,7 @@ a fast and consistent way. The plugin will run in QGIS3 versions from 3.4.0 and 
 
 ```
 
-* Run the generate_plugin which will by default generate a directory with all the plugin content.
+* Run the generate_plugin script which will by default generate a directory with all the plugin content.
 ```python3 generate_plugin.py```
 
 * Either copy this directory to your qgis3 plugin directory or create a symbolic link in your plugin directory:
