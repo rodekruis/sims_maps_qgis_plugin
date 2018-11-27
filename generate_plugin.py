@@ -47,7 +47,7 @@ logosDestDir = os.path.join(destDataDir, 'logos')
 os.makedirs(logosDestDir)
 
 csvFileName = os.path.join(logosDestDir, u'logos.csv')
-csvFile = open(csvFileName, encoding=u'utf-8', mode=u'w')
+csvFile = open(csvFileName, encoding=u'utf-8', mode=u'w', newline=u'')
 csvWriter = csv.writer(csvFile, delimiter=u';', quoting=csv.QUOTE_NONNUMERIC, quotechar=u'"')
 
 csvWriter.writerow([u'code', u'country', u'society', u'logo'])

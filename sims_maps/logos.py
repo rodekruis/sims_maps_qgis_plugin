@@ -13,7 +13,7 @@ class RcLogos():
         return result
 
     def readFromCsv(self, filename):
-        csvFile = open(filename, encoding=u'utf-8', mode=u'r')
+        csvFile = open(filename, encoding=u'utf-8', mode=u'r', newline=u'')
         csvReader = csv.reader(csvFile, delimiter=';', quotechar='"')
 
         self.logos = []
