@@ -26,7 +26,8 @@ from qgis.core import (QgsProject,
                        QgsPrintLayout,
                        QgsReadWriteContext)
 from .logos import RcLogos
-from .layout_config import layoutConfiguration
+from .layout_config import (layoutConfiguration,
+                            simsDisclamers)
 
 
 def classFactory(iface):
@@ -116,6 +117,13 @@ class SimsMaps:
         for fn in self.logos.getFileNames():
             cb.addItem(fn)
 
+        # sims disclamers
+        cb = self.createLayoutDialog.comboBoxSimsDisclamer
+        while cb.count() > 0:
+            cb.removeItem(0)
+        for key in simsDisclamers.keys():
+            cb.addItem(key)
+
         self.createLayoutDialog.show()
 
 
@@ -156,6 +164,11 @@ class SimsMaps:
         # set overview map
         # set scale
         # set page size
+        # set disclamer
+        label = self.getItemById(layout, u'RC_disclaimer')
+        if label is not None:
+            disclamerChoice = self.createLayoutDialog.comboBoxSimsDisclamer.currentText()
+            label.setText(simsDisclamers[disclamerChoice])
 
         # set Copyright
         # evt. automatisch: [%'© SIMS '  || year(now())%]
@@ -183,8 +196,6 @@ class SimsMaps:
             print(logoSvg)
             picture.setPicturePath(logoSvg)
 
-
-
         # clear default label values
 
         # add to project and open designer window
@@ -193,10 +204,7 @@ class SimsMaps:
 
 
     def editTitleblock(self, designer):
-        self.layoutConfiguration = [
-            {u'code': u'RC_title', u'label': designer.dialog.labelRcTitle, u'edit': designer.dialog.lineEditRcTitle},
 
-        ]
         designer.titleblockDialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
         # TODO: Find out if this needs to be disconnected, and when
 
