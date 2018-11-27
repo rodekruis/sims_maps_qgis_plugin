@@ -176,15 +176,16 @@ class SimsMaps:
             if filename == u'':
                 filename = u'filename unknown, project not saved'
             label.setText(filename)
-
+        '''
 
         # set logo
         picture = self.getItemById(layout, u'RC_logo')
         if picture is not None:
-            logoSvg = os.path.join(self.data_path, u'logo_rcrc.svg')
+            logoChoice = self.createLayoutDialog.comboBoxNsLogo.currentText()
+            logoSvg = os.path.join(self.dataPath, u'logos', logoChoice)
             print(logoSvg)
             picture.setPicturePath(logoSvg)
-        '''
+
 
 
         # clear default label values
