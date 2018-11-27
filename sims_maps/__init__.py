@@ -26,6 +26,7 @@ from qgis.core import (QgsProject,
                        QgsPrintLayout,
                        QgsReadWriteContext)
 from .logos import RcLogos
+from .layout_config import layoutConfiguration
 
 
 def classFactory(iface):
@@ -45,7 +46,7 @@ class SimsMaps:
     def initGui(self):
         print(u'initGui')
 
-        self.toolBar = self.iface.addToolBar(u'SIMS')
+        self.toolBar = self.iface.addToolBar(u'SIMS Maps')
         #self.toolButtonCreateLayout = QToolButton()
         #self.toolBar.addAction(self.toolButtonCreateLayout)
         icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
@@ -59,8 +60,8 @@ class SimsMaps:
         print(self.actionCreateLayout)
         '''
 
-        dialogFile = os.path.join(self.pluginDir, u'create_layout_dialog.ui')
-        self.createLayoutDialog = loadUi(dialogFile)
+        createLayoutUi = os.path.join(self.pluginDir, u'create_layout_dialog.ui')
+        self.createLayoutDialog = loadUi(createLayoutUi)
         self.createLayoutDialog.buttonBox.accepted.connect(self.createLayout)
 
         # connections
@@ -114,10 +115,6 @@ class SimsMaps:
             cb.removeItem(0)
         for fn in self.logos.getFileNames():
             cb.addItem(fn)
-
-        #cb.addItem(u'croissant_rouge_tunisien.svg')
-        #cb.addItem(u'Sierra Leone Red Cross.svg')
-
 
         self.createLayoutDialog.show()
 
@@ -192,7 +189,7 @@ class SimsMaps:
 
         # add to project and open designer window
         layoutManager.addLayout(layout)
-        self.d = self.iface.openLayoutDesigner(layout)
+        designer = self.iface.openLayoutDesigner(layout)
 
 
     def editTitleblock(self, designer):
@@ -200,14 +197,16 @@ class SimsMaps:
             {u'code': u'RC_title', u'label': designer.dialog.labelRcTitle, u'edit': designer.dialog.lineEditRcTitle},
 
         ]
+        designer.titleblockDialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
+        # TODO: Find out if this needs to be disconnected, and when
 
-        for configurationItem in self.layoutConfiguration:
+        for configurationItem in layoutConfiguration:
             #print(configurationItem)
-            label = configurationItem[u'label']
-            edit = configurationItem[u'edit']
+            label = self.getTitleblockWidget(designer, configurationItem['label'])
+            edit = self.getTitleblockWidget(designer, configurationItem['edit'])
             #edit.setClearButtonEnabled(True)
 
-            layoutItem = self.getItemById(designer.layout(), configurationItem[u'code'])
+            layoutItem = self.getItemById(designer.layout(), configurationItem['code'])
             #print(layoutItem)
             if layoutItem is not None:
                 if label is not None:
@@ -216,7 +215,6 @@ class SimsMaps:
                 if isinstance(edit, QLineEdit):
                     edit.setText(layoutItem.text())
                 if isinstance(edit, QCheckBox):
-                    #print(u'checkbox:', layoutItem.visible())
                     edit.setChecked(layoutItem.isVisible())
             else:
                 if label is not None:
@@ -227,17 +225,23 @@ class SimsMaps:
                 if isinstance(edit, QCheckBox):
                     edit.setChecked(False)
 
-        designer.dialog.show()
+        designer.titleblockDialog.show()
+
+
+    def getTitleblockWidget(self, designer, name):
+            if name is not None:
+                widget = eval(u'designer.titleblockDialog.{0}'.format(name))
+            else:
+                widget = None
+            return widget
 
 
     def updateDesigner(self, designer):
-        print(u'updateDesigner')
+        print('updateDesigner')
 
-        for configurationItem in self.layoutConfiguration:
-            label = configurationItem[u'label']
-            print(label)
-            edit = configurationItem[u'edit']
-            print(edit)
+        for configurationItem in layoutConfiguration:
+            label = self.getTitleblockWidget(designer, configurationItem['label'])
+            edit = self.getTitleblockWidget(designer, configurationItem['edit'])
             if edit.isEnabled():
                 layoutItem = self.getItemById(designer.layout(), configurationItem['code'])
                 if layoutItem is not None:
@@ -260,8 +264,10 @@ class SimsMaps:
         icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
         action = QAction(icon, u'Edit SIMS map', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
-
         tb.addAction(action)
+
+        titleblockUi = os.path.join(self.pluginDir, u'edit_layout_dialog.ui')
+        designer.titleblockDialog = loadUi(titleblockUi)
 
         print(u'opened finished')
 
@@ -276,6 +282,7 @@ class SimsMaps:
             print(u'Layout does not contain item: \'{0}\''.format(itemId))
             return None
         return item
+
 
     def updateLabelPreview(self):
         #self.createLayoutDialog.labelImagePreview.setAlignment(Qt.AlignCenter)
