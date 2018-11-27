@@ -48,7 +48,7 @@ class SimsMaps:
         self.toolBar = self.iface.addToolBar(u'SIMS')
         #self.toolButtonCreateLayout = QToolButton()
         #self.toolBar.addAction(self.toolButtonCreateLayout)
-        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg')
+        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
         self.actionCreateLayout = QAction(icon, u'SIMS Maps Cross', parent=self.iface.mainWindow())
         self.toolBar.addAction(self.actionCreateLayout)
         '''

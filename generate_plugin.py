@@ -3,11 +3,8 @@ import argparse
 import shutil
 import csv
 
-# defaults
-outputDir = 'sims_maps_generated'
-
 parser = argparse.ArgumentParser(description=u'Create plugin directory including dependency files from other repos.')
-parser.add_argument(u'-d', default=outputDir, help=u'destination directory')
+parser.add_argument(u'-d', default='sims_maps_generated', help=u'destination directory')
 
 args = parser.parse_args()
 print(args)
