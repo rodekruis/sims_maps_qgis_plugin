@@ -4,7 +4,7 @@ import shutil
 import csv
 
 parser = argparse.ArgumentParser(description=u'Create plugin directory including dependency files from other repos.')
-parser.add_argument(u'-d', default='sims_maps_generated', help=u'destination directory')
+parser.add_argument(u'-d', default=u'sims_maps_generated', help=u'destination directory')
 
 args = parser.parse_args()
 print(args)
@@ -47,8 +47,8 @@ logosDestDir = os.path.join(destDataDir, 'logos')
 os.makedirs(logosDestDir)
 
 csvFileName = os.path.join(logosDestDir, u'logos.csv')
-csvFile = open(csvFileName, 'w')
-csvWriter = csv.writer(csvFile, delimiter=';', quoting=csv.QUOTE_NONNUMERIC, quotechar='"')
+csvFile = open(csvFileName, encoding=u'utf-8', mode=u'w')
+csvWriter = csv.writer(csvFile, delimiter=u';', quoting=csv.QUOTE_NONNUMERIC, quotechar=u'"')
 
 csvWriter.writerow([u'code', u'country', u'society', u'logo'])
 
@@ -70,13 +70,13 @@ for file in os.listdir(nsLogosSrcDir):
             #if ext.lower() == u'.eps':
             #    pass
             if filename == u'README.md':
-                mdFile = open(os.path.join(nsDir, filename), mode='r')
-                line = mdFile.readline().strip().decode('cp1252')
+                mdFile = open(os.path.join(nsDir, filename), encoding=u'utf-8', mode=u'r')
+                line = mdFile.readline().strip()
                 #print(line)
-                nsName = line.replace(u'#',u'').strip()
+                nsName = line.replace(u'#', u'').strip()
                 #print(nsName)
 
-                line = mdFile.readline().strip().decode('cp1252')
+                line = mdFile.readline().strip()
                 mdFile.close()
                 #print(line)
                 parts = line.split(' - ')

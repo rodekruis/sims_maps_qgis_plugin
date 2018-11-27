@@ -256,7 +256,7 @@ class SimsMaps:
         designer.dialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
 
         tb = designer.actionsToolbar()
-        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg')
+        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
         action = QAction(icon, u'Edit SIMS map', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
 
