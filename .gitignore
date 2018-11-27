@@ -54,3 +54,6 @@ docs/_build/
 target/
 
 sims_maps_generated
+
+#PyCharm IDE prject files
+.idea
