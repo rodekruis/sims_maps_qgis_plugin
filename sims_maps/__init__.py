@@ -24,7 +24,8 @@ from PyQt5.uic import loadUi
 from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
                        QgsPrintLayout,
-                       QgsReadWriteContext)
+                       QgsReadWriteContext,
+                       QgsApplication)
 from .logos import RcLogos
 from .layout_config import (layoutConfiguration,
                             simsDisclamers,
@@ -213,10 +214,14 @@ class SimsMaps:
         label = self.getItemById(layout, u'RC_date')
         if label is not None:
             now = datetime.now()
-            print(now)
             month = simsMonths[languageChoice][now.month]
-            print(month)
             label.setText(now.strftime('%d {} %Y').format(month))
+
+        # set North Arrow
+        picture = self.getItemById(layout, u'RC_northarrow')
+        if picture is not None:
+            logoSvg = os.path.join(QgsApplication.prefixPath(), u'share', u'qgis', u'svg', u'arrows', u'NorthArrow_02.svg')
+            picture.setPicturePath(logoSvg)
 
         # clear default label values
 
