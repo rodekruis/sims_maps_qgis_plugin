@@ -67,7 +67,7 @@
   <LabelFont style="" description="FreeSans,10,-1,5,50,0,0,0,0,0"/>
   <FontColor green="0" red="0" blue="0"/>
  </LayoutItem>
- <LayoutItem frame="false" positionLock="false" excludeFromExports="0" id="RC_date" opacity="1" marginY="0" uuid="{27b7c8e2-d912-4f3a-bcba-2d5ef616a958}" valign="32" visibility="1" frameJoinStyle="miter" templateUuid="{27b7c8e2-d912-4f3a-bcba-2d5ef616a958}" halign="2" type="65641" groupUuid="" referencePoint="0" htmlState="1" position="159,5,mm" background="false" blendMode="0" itemRotation="0" positionOnPage="159,5,mm" zValue="15" labelText="7 October 2016" size="60,5,mm" marginX="0" outlineWidthM="0.3,mm">
+ <LayoutItem frame="false" positionLock="false" excludeFromExports="0" id="RC_date" opacity="1" marginY="0" uuid="{27b7c8e2-d912-4f3a-bcba-2d5ef616a958}" valign="32" visibility="1" frameJoinStyle="miter" templateUuid="{27b7c8e2-d912-4f3a-bcba-2d5ef616a958}" halign="2" type="65641" groupUuid="" referencePoint="0" htmlState="1" position="159,5,mm" background="false" blendMode="0" itemRotation="0" positionOnPage="159,5,mm" zValue="15" labelText="DD MMMM YYYY" size="60,5,mm" marginX="0" outlineWidthM="0.3,mm">
   <FrameColor green="0" red="0" alpha="255" blue="0"/>
   <BackgroundColor green="255" red="255" alpha="255" blue="255"/>
   <LayoutObject>

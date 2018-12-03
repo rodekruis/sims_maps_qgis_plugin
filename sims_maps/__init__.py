@@ -28,7 +28,8 @@ from qgis.core import (QgsProject,
 from .logos import RcLogos
 from .layout_config import (layoutConfiguration,
                             simsDisclamers,
-                            simsLogoTexts)
+                            simsLogoTexts,
+                            simsMonths)
 
 
 def classFactory(iface):
@@ -206,8 +207,16 @@ class SimsMaps:
         picture = self.getItemById(layout, u'RC_logo2')
         if picture is not None:
             logoSvg = os.path.join(self.dataPath, u'img', u'Emblem_of_the_IFRC.svg')
-            print(logoSvg)
             picture.setPicturePath(logoSvg)
+
+        # set date
+        label = self.getItemById(layout, u'RC_date')
+        if label is not None:
+            now = datetime.now()
+            print(now)
+            month = simsMonths[languageChoice][now.month]
+            print(month)
+            label.setText(now.strftime('%d {} %Y').format(month))
 
         # clear default label values
 
