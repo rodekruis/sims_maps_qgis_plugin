@@ -27,7 +27,8 @@ from qgis.core import (QgsProject,
                        QgsReadWriteContext)
 from .logos import RcLogos
 from .layout_config import (layoutConfiguration,
-                            simsDisclamers)
+                            simsDisclamers,
+                            simsLogoTexts)
 
 
 def classFactory(iface):
@@ -118,10 +119,10 @@ class SimsMaps:
             cb.addItem(fn)
 
         # sims disclamers
-        cb = self.createLayoutDialog.comboBoxSimsDisclamer
+        cb = self.createLayoutDialog.comboBoxLanguage
         while cb.count() > 0:
             cb.removeItem(0)
-        for key in simsDisclamers.keys():
+        for key in simsDisclamers.keys(): # using keys in disclamers here!
             cb.addItem(key)
 
         self.createLayoutDialog.show()
@@ -165,10 +166,16 @@ class SimsMaps:
         # set scale
         # set page size
         # set disclamer
+        languageChoice = self.createLayoutDialog.comboBoxLanguage.currentText()
+
         label = self.getItemById(layout, u'RC_disclaimer')
         if label is not None:
-            disclamerChoice = self.createLayoutDialog.comboBoxSimsDisclamer.currentText()
-            label.setText(simsDisclamers[disclamerChoice])
+            label.setText(simsDisclamers[languageChoice])
+
+        label = self.getItemById(layout, u'RC_logotext')
+        if label is not None:
+            label.setText(simsLogoTexts[languageChoice])
+
 
         # set Copyright
         # evt. automatisch: [%'© SIMS '  || year(now())%]
@@ -188,11 +195,17 @@ class SimsMaps:
             label.setText(filename)
         '''
 
-        # set logo
-        picture = self.getItemById(layout, u'RC_logo')
+        # set NS logo
+        picture = self.getItemById(layout, u'RC_logo1')
         if picture is not None:
             logoChoice = self.createLayoutDialog.comboBoxNsLogo.currentText()
             logoSvg = os.path.join(self.dataPath, u'logos', logoChoice)
+            picture.setPicturePath(logoSvg)
+
+        # set IFRC logo
+        picture = self.getItemById(layout, u'RC_logo2')
+        if picture is not None:
+            logoSvg = os.path.join(self.dataPath, u'img', u'Emblem_of_the_IFRC.svg')
             print(logoSvg)
             picture.setPicturePath(logoSvg)
 

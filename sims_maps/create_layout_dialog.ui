@@ -82,12 +82,12 @@
      <widget class="QComboBox" name="comboBoxNsLogo"/>
     </item>
     <item row="3" column="1">
-     <widget class="QComboBox" name="comboBoxSimsDisclamer"/>
+     <widget class="QComboBox" name="comboBoxLanguage"/>
     </item>
     <item row="3" column="0">
-     <widget class="QLabel" name="labelSimsDisclamer">
+     <widget class="QLabel" name="labelLanguage">
       <property name="text">
-       <string>SIMS disclamer language</string>
+       <string>Language</string>
       </property>
      </widget>
     </item>

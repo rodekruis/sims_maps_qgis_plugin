@@ -51,6 +51,22 @@
    <Guide page="0" units="mm" orientation="1" position="43"/>
   </GuideCollection>
  </PageCollection>
+ <LayoutItem frame="false" positionLock="false" excludeFromExports="0" id="RC_logotext" opacity="1" marginY="0" uuid="{fe40245b-0c1c-41f4-bd5c-7070b5d124ca}" valign="128" visibility="1" frameJoinStyle="miter" templateUuid="{fe40245b-0c1c-41f4-bd5c-7070b5d124ca}" halign="1" type="65641" groupUuid="" referencePoint="0" htmlState="0" position="50.4394,5,mm" background="false" blendMode="0" itemRotation="0" positionOnPage="50.4394,5,mm" zValue="26" labelText="Logo_text" size="79.4552,14.996,mm" marginX="0" outlineWidthM="0.3,mm">
+  <FrameColor green="0" red="0" alpha="255" blue="0"/>
+  <BackgroundColor green="255" red="255" alpha="255" blue="255"/>
+  <LayoutObject>
+   <dataDefinedProperties>
+    <Option type="Map">
+     <Option name="name" type="QString" value=""/>
+     <Option name="properties"/>
+     <Option name="type" type="QString" value="collection"/>
+    </Option>
+   </dataDefinedProperties>
+   <customproperties/>
+  </LayoutObject>
+  <LabelFont style="" description="FreeSans,10,-1,5,50,0,0,0,0,0"/>
+  <FontColor green="0" red="0" blue="0"/>
+ </LayoutItem>
  <LayoutItem frame="false" positionLock="false" excludeFromExports="0" id="RC_date" opacity="1" marginY="0" uuid="{27b7c8e2-d912-4f3a-bcba-2d5ef616a958}" valign="32" visibility="1" frameJoinStyle="miter" templateUuid="{27b7c8e2-d912-4f3a-bcba-2d5ef616a958}" halign="2" type="65641" groupUuid="" referencePoint="0" htmlState="1" position="159,5,mm" background="false" blendMode="0" itemRotation="0" positionOnPage="159,5,mm" zValue="15" labelText="7 October 2016" size="60,5,mm" marginX="0" outlineWidthM="0.3,mm">
   <FrameColor green="0" red="0" alpha="255" blue="0"/>
   <BackgroundColor green="255" red="255" alpha="255" blue="255"/>
@@ -99,7 +115,7 @@
   <LabelFont style="" description="FreeSans,10,-1,5,50,0,0,0,0,0"/>
   <FontColor green="0" red="0" blue="0"/>
  </LayoutItem>
- <LayoutItem pictureWidth="14.9045" frame="false" positionLock="false" excludeFromExports="0" pictureHeight="14.996" id="RC_logo2" opacity="1" uuid="{3b5e0e84-bec9-4511-b6b8-073af42582c6}" visibility="1" anchorPoint="0" frameJoinStyle="miter" templateUuid="{3b5e0e84-bec9-4511-b6b8-073af42582c6}" mapUuid="" type="65640" svgBorderWidth="0.2" groupUuid="" referencePoint="0" northMode="0" position="23.2639,5,mm" background="false" northOffset="0" blendMode="0" itemRotation="0" positionOnPage="23.2639,5,mm" zValue="12" pictureRotation="0" resizeMode="0" svgBorderColor="0,0,0,255" file="./graphics_printcomposer/IFRC_logo_fourlanguages-white.png" size="49.6739,14.996,mm" outlineWidthM="0.3,mm" svgFillColor="255,255,255,255">
+ <LayoutItem pictureWidth="26.1836" frame="false" positionLock="false" excludeFromExports="0" pictureHeight="14.9621" id="RC_logo2" opacity="1" uuid="{3b5e0e84-bec9-4511-b6b8-073af42582c6}" visibility="1" anchorPoint="0" frameJoinStyle="miter" templateUuid="{3b5e0e84-bec9-4511-b6b8-073af42582c6}" mapUuid="" type="65640" svgBorderWidth="0.2" groupUuid="" referencePoint="0" northMode="0" position="23.2639,5,mm" background="false" northOffset="0" blendMode="0" itemRotation="0" positionOnPage="23.2639,5,mm" zValue="12" pictureRotation="0" resizeMode="0" svgBorderColor="0,0,0,255" file="../sims_maps_generated/data/img/Emblem_of_the_IFRC.svg" size="26.1836,14.996,mm" outlineWidthM="0.3,mm" svgFillColor="255,255,255,255">
   <FrameColor green="0" red="0" alpha="255" blue="0"/>
   <BackgroundColor green="255" red="255" alpha="255" blue="255"/>
   <LayoutObject>
