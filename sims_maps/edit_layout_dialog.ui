@@ -35,22 +35,68 @@
      <x>50</x>
      <y>20</y>
      <width>711</width>
-     <height>101</height>
+     <height>201</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="2">
+     <widget class="QLineEdit" name="lineEditRcDate">
+      <property name="placeholderText">
+       <string>DD MMMM YYYY</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="labelRcAppealCode">
+      <property name="text">
+       <string>Appeal code</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="labelRcDate">
+      <property name="text">
+       <string>Date</string>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="labelRcTitle">
       <property name="enabled">
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Project name</string>
+       <string>Title</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QLineEdit" name="lineEditRcTitle"/>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="lineEditRcTitle">
+      <property name="placeholderText">
+       <string>Map content, Location, Date</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="labelRcGlideNumber">
+      <property name="text">
+       <string>Glide number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="lineEditRcAppealCode">
+      <property name="placeholderText">
+       <string>MDRNL0XX</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QLineEdit" name="lineEditRcGlideNumber">
+      <property name="placeholderText">
+       <string>NL-2017000001-GIS</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
