@@ -6,10 +6,13 @@ a fast and consistent way. The plugin will run in QGIS3 versions from 3.4.0 and 
 ## Setup development environment
 
 * Clone this git repository
+* Clone IFRC icon git repository in same directory: https://github.com/IFRCGo/IFRC-Icons
 * Clone NS logos git repository in same directory: https://github.com/raymondnijssen/logos
+
 ```
-/path/to/git/
+path/to/git/
 |--sims_maps_qgis_plugin/
+|--IFRC-Icons/
 |--logos/
 
 ```

@@ -18,7 +18,7 @@ class RcLogos():
 
         self.logos = []
         for row in csvReader:
-            print(row)
+            #print(row)
             self.logos.append(row)
 
         csvFile.close()

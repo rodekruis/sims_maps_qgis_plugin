@@ -64,6 +64,8 @@ class SimsMaps:
         print(self.actionCreateLayout)
         '''
 
+        self.addIconPath()
+
         createLayoutUi = os.path.join(self.pluginDir, u'create_layout_dialog.ui')
         self.createLayoutDialog = loadUi(createLayoutUi)
         self.createLayoutDialog.buttonBox.accepted.connect(self.createLayout)
@@ -98,7 +100,28 @@ class SimsMaps:
         self.iface.mainWindow().removeToolBar(self.toolBar)
         del self.toolBar
 
+        self.removeIconPath()
+
         # TODO: loop designers to remove connections and actions
+
+
+    def addIconPath(self):
+        print(u'addIconPath')
+        iconsDir = os.path.join(self.dataPath, u'SIMS-Icons')
+        paths = QgsApplication.svgPaths()
+        if not iconsDir in paths:
+            paths.append(iconsDir)
+        QgsApplication.setDefaultSvgPaths(paths)
+
+
+    def removeIconPath(self):
+        print(u'removeIconPath')
+        iconsDir = os.path.join(self.dataPath, u'SIMS-Icons')
+        paths = QgsApplication.svgPaths()
+        i = paths.index(iconsDir)
+        if i >= 0:
+            del paths[i]
+        QgsApplication.setDefaultSvgPaths(paths)
 
 
     def showLayoutDialog(self):

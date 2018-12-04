@@ -42,7 +42,7 @@ shutil.copytree(os.path.join(srcDir, u'data'), destDataDir)
 # copy logos from local clone of git@github.com:IFRCGo/logos.git
 #print('- logos -')
 logosSrcDir = os.path.join(gitDir, u'logos')
-#print(logosSrcDir)
+print(logosSrcDir)
 logosDestDir = os.path.join(destDataDir, 'logos')
 os.makedirs(logosDestDir)
 
@@ -97,3 +97,22 @@ for file in os.listdir(nsLogosSrcDir):
                 shutil.copy2(srcFile, logosDestDir)
                 csvWriter.writerow([nsCode, nsCountry, nsName, nsSvgFile])
 csvFile.close()
+
+# copy icons from local clone of git@github.com:IFRC-Icons.git
+#print('- icons -')
+iconsSrcDir = os.path.join(gitDir, u'IFRC-Icons', u'OCHA_Icons', u'qgis_versions', u'svg')
+#iconsSrcDir = '/home/raymond/git/IFRC-Icons/OCHA_Icons/qgis_versions/svg'
+#print(iconsSrcDir)
+iconsDestDir = os.path.join(destDataDir, u'SIMS-Icons', u'OCHA')
+os.makedirs(iconsDestDir)
+
+#/home/raymond/git/IFRC-Icons/OCHA-Icons/qgis_versions/svg
+#/home/raymond/git/IFRC-Icons/OCHA_Icons/qgis_versions/svg
+
+files = os.listdir(iconsSrcDir)
+fileTypes = [u'.svg']
+for file in files:
+    fn, ext = os.path.splitext(file)
+    if ext in fileTypes:
+        #print(file)
+        shutil.copy2(os.path.join(iconsSrcDir, file), iconsDestDir)
