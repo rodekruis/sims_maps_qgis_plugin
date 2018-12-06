@@ -99,6 +99,14 @@
      </widget>
     </item>
    </layout>
+   <zorder>lineEditRcTitle</zorder>
+   <zorder>lineEditRcDate</zorder>
+   <zorder>labelRcDate</zorder>
+   <zorder>labelRcAppealCode</zorder>
+   <zorder>labelRcGlideNumber</zorder>
+   <zorder>lineEditRcAppealCode</zorder>
+   <zorder>lineEditRcGlideNumber</zorder>
+   <zorder>labelRcTitle</zorder>
   </widget>
   <widget class="QLineEdit" name="lineEditChecked1_2">
    <property name="geometry">

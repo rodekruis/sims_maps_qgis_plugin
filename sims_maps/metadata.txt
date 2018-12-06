@@ -1,7 +1,7 @@
 [general]
-name=SIMS Maps
+name=SIMS Map Layouts
 description=Plugin for creating SIMS map layouts
 version=0.1.0
-qgisMinimumVersion=3.2
+qgisMinimumVersion=3.4
 author=510, an initiative of The Netherlands Red Cross
 email=rnijssen@rodekruis.nl

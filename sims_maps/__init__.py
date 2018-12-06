@@ -30,7 +30,9 @@ from .logos import RcLogos
 from .layout_config import (layoutConfiguration,
                             simsDisclamers,
                             simsLogoTexts,
+                            simsIfrcLogos,
                             simsMonths)
+from .sims_colors import QgsSimsColorScheme
 
 
 def classFactory(iface):
@@ -45,6 +47,9 @@ class SimsMaps:
         self.dataPath = os.path.join(self.pluginDir, u'data')
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, u'logos', u'logos.csv'))
+
+        self.addIconPath()
+        self.addColorScheme()
 
 
     def initGui(self):
@@ -63,8 +68,6 @@ class SimsMaps:
         self.toolButtonCreateLayout = self.toolBar.addAction(self.actionCreateLayout)
         print(self.actionCreateLayout)
         '''
-
-        self.addIconPath()
 
         createLayoutUi = os.path.join(self.pluginDir, u'create_layout_dialog.ui')
         self.createLayoutDialog = loadUi(createLayoutUi)
@@ -101,6 +104,7 @@ class SimsMaps:
         del self.toolBar
 
         self.removeIconPath()
+        self.removeColorScheme()
 
         # TODO: loop designers to remove connections and actions
 
@@ -122,6 +126,28 @@ class SimsMaps:
         if i >= 0:
             del paths[i]
         QgsApplication.setDefaultSvgPaths(paths)
+
+
+    def addColorScheme(self):
+        print(u'add simsColorScheme')
+        cs = QgsSimsColorScheme()
+        print(cs)
+        QgsApplication.colorSchemeRegistry().addColorScheme(cs)
+        for c in QgsApplication.colorSchemeRegistry().schemes():
+            print('-' + c.schemeName())
+
+
+    def removeColorScheme(self):
+        print(u'remove simsColorScheme')
+        schemesToRemove = []
+        for cs in QgsApplication.colorSchemeRegistry().schemes():
+            if cs.schemeName() in [u'', u'SIMS Colors']:
+                schemesToRemove.append(cs)
+        print(schemesToRemove)
+        for cs in schemesToRemove:
+            QgsApplication.colorSchemeRegistry().removeColorScheme(cs)
+        for c in QgsApplication.colorSchemeRegistry().schemes():
+            print('-' + c.schemeName())
 
 
     def showLayoutDialog(self):
@@ -230,7 +256,8 @@ class SimsMaps:
         # set IFRC logo
         picture = self.getItemById(layout, u'RC_logo2')
         if picture is not None:
-            logoSvg = os.path.join(self.dataPath, u'img', u'Emblem_of_the_IFRC.svg')
+            logo = simsIfrcLogos[languageChoice]
+            logoSvg = os.path.join(self.dataPath, u'img', logo)
             picture.setPicturePath(logoSvg)
 
         # set date
