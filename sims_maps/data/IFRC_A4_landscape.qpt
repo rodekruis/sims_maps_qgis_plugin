@@ -104,7 +104,7 @@
    </dataDefinedProperties>
    <customproperties/>
   </LayoutObject>
-  <LabelFont style="" description="FreeSans,10,-1,5,50,0,0,0,0,0"/>
+  <LabelFont style="" description="Arial,10,-1,5,50,0,0,0,0,0"/>
   <FontColor red="0" blue="0" green="0"/>
  </LayoutItem>
  <LayoutItem positionLock="false" halign="2" valign="128" outlineWidthM="0.3,mm" zValue="8" templateUuid="{5f2834ed-69c8-48ac-8ba8-b25d04769b45}" position="219,11,mm" positionOnPage="219,11,mm" type="65641" labelText="RC_appealcode" marginY="0" frameJoinStyle="miter" blendMode="0" frame="false" htmlState="0" uuid="{5f2834ed-69c8-48ac-8ba8-b25d04769b45}" opacity="1" id="RC_appealcode" marginX="0" excludeFromExports="0" groupUuid="" visibility="1" size="40,4,mm" referencePoint="5" itemRotation="0" background="false">
@@ -120,7 +120,7 @@
    </dataDefinedProperties>
    <customproperties/>
   </LayoutObject>
-  <LabelFont style="" description="FreeSans,10,-1,5,50,0,0,0,0,0"/>
+  <LabelFont style="" description="Arial,10,-1,5,50,0,0,0,0,0"/>
   <FontColor red="0" blue="0" green="0"/>
  </LayoutItem>
  <LayoutItem positionLock="false" halign="2" valign="32" outlineWidthM="0.3,mm" zValue="7" templateUuid="{79db7fe2-38cf-47d8-ba6a-cc60baf22448}" position="219,17,mm" positionOnPage="219,17,mm" type="65641" labelText="RC_glidenumber" marginY="0" frameJoinStyle="miter" blendMode="0" frame="false" htmlState="0" uuid="{79db7fe2-38cf-47d8-ba6a-cc60baf22448}" opacity="1" id="RC_glidenumber" marginX="0" excludeFromExports="0" groupUuid="" visibility="1" size="40,4.00004,mm" referencePoint="8" itemRotation="0" background="false">
@@ -136,7 +136,7 @@
    </dataDefinedProperties>
    <customproperties/>
   </LayoutObject>
-  <LabelFont style="" description="FreeSans,10,-1,5,50,0,0,0,0,0"/>
+  <LabelFont style="" description="Arial,10,-1,5,50,0,0,0,0,0"/>
   <FontColor red="0" blue="0" green="0"/>
  </LayoutItem>
  <LayoutItem positionLock="false" halign="1" valign="128" outlineWidthM="0.3,mm" zValue="6" templateUuid="{90f6af88-e44a-4232-b4a8-c8fddd3f0543}" position="5,17,mm" positionOnPage="5,17,mm" type="65641" labelText="RC_title" marginY="0" frameJoinStyle="miter" blendMode="0" frame="false" htmlState="0" uuid="{90f6af88-e44a-4232-b4a8-c8fddd3f0543}" opacity="1" id="RC_title" marginX="0" excludeFromExports="0" groupUuid="" visibility="1" size="214,22.996,mm" referencePoint="0" itemRotation="0" background="false">
@@ -152,7 +152,7 @@
    </dataDefinedProperties>
    <customproperties/>
   </LayoutObject>
-  <LabelFont style="" description="FreeSans,16,-1,5,50,0,0,0,0,0"/>
+  <LabelFont style="" description="Arial,16,-1,5,50,0,0,0,0,0"/>
   <FontColor red="0" blue="0" green="0"/>
  </LayoutItem>
  <LayoutItem positionLock="false" outlineWidthM="0.3,mm" zValue="5" templateUuid="{f8d62f86-c550-4f61-992d-bfcad2c120fe}" followPresetName="" position="222,5,mm" positionOnPage="222,5,mm" drawCanvasItems="true" type="65639" mapRotation="0" keepLayerSet="true" frameJoinStyle="miter" blendMode="0" frame="false" uuid="{f8d62f86-c550-4f61-992d-bfcad2c120fe}" opacity="1" id="RC_overview" excludeFromExports="0" groupUuid="" visibility="1" size="70,35,mm" referencePoint="0" followPreset="false" itemRotation="0" background="false">
@@ -1261,10 +1261,10 @@ def my_form_open(dialog, layer, feature):
    </dataDefinedProperties>
    <customproperties/>
   </LayoutObject>
-  <LabelFont style="" description="FreeSans,7,-1,5,50,0,0,0,0,0"/>
+  <LabelFont style="" description="Arial,7,-1,5,50,0,0,0,0,0"/>
   <FontColor red="0" blue="0" green="0"/>
  </LayoutItem>
- <LayoutItem numSegmentsLeft="0" excludeFromExports="0" numUnitsPerSegment="100000" mapUuid="{acaa8622-5416-468b-839c-8c8b1f8cd60a}" lineJoinStyle="miter" uuid="{929f168b-4fb4-4043-9690-1a62b646fa7d}" style="Line Ticks Up" unitType="meters" visibility="1" segmentMillimeters="9.25197" referencePoint="0" minBarWidth="25" frameJoinStyle="miter" zValue="2" segmentSizeMode="1" outlineWidth="0.3" positionLock="false" type="65646" groupUuid="" opacity="1" itemRotation="0" position="222,193,mm" lineCapStyle="square" id="RC_scalebar" background="false" size="48.2048,12,mm" unitLabel="km" labelBarSpace="2" height="1" blendMode="0" numSegments="4" templateUuid="{929f168b-4fb4-4043-9690-1a62b646fa7d}" boxContentSpace="1" numMapUnitsPerScaleBarUnit="1000" maxBarWidth="48" alignment="2" frame="false" positionOnPage="222,193,mm" outlineWidthM="0.3,mm">
+ <LayoutItem numSegmentsLeft="0" excludeFromExports="0" numUnitsPerSegment="100000" mapUuid="{acaa8622-5416-468b-839c-8c8b1f8cd60a}" lineJoinStyle="miter" uuid="{929f168b-4fb4-4043-9690-1a62b646fa7d}" style="Line Ticks Up" unitType="meters" visibility="1" segmentMillimeters="9.25197" referencePoint="0" minBarWidth="25" frameJoinStyle="miter" zValue="2" segmentSizeMode="1" outlineWidth="0.3" positionLock="false" type="65646" groupUuid="" opacity="1" itemRotation="0" position="222,193,mm" lineCapStyle="square" id="RC_scalebar" background="false" size="48.3219,12,mm" unitLabel="km" labelBarSpace="2" height="1" blendMode="0" numSegments="4" templateUuid="{929f168b-4fb4-4043-9690-1a62b646fa7d}" boxContentSpace="1" numMapUnitsPerScaleBarUnit="1000" maxBarWidth="48" alignment="2" frame="false" positionOnPage="222,193,mm" outlineWidthM="0.3,mm">
   <FrameColor red="0" blue="0" alpha="255" green="0"/>
   <BackgroundColor red="255" blue="255" alpha="255" green="255"/>
   <LayoutObject>
@@ -1277,7 +1277,7 @@ def my_form_open(dialog, layer, feature):
    </dataDefinedProperties>
    <customproperties/>
   </LayoutObject>
-  <text-style multilineHeight="1" fontSizeMapUnitScale="3x:0,0,0,0,0,0" fontCapitals="0" namedStyle="Regular" fontWeight="50" fontSizeUnit="Point" fontLetterSpacing="0" fontSize="9" fontUnderline="0" fontStrikeout="0" textColor="0,0,0,255" fontWordSpacing="0" fontFamily="FreeSans" textOpacity="1" blendMode="0" fontItalic="0">
+  <text-style multilineHeight="1" fontSizeMapUnitScale="3x:0,0,0,0,0,0" fontCapitals="0" namedStyle="Regular" fontWeight="50" fontSizeUnit="Point" fontLetterSpacing="0" fontSize="7" fontUnderline="0" fontStrikeout="0" textColor="0,0,0,255" fontWordSpacing="0" fontFamily="Arial" textOpacity="1" blendMode="0" fontItalic="0">
    <text-buffer bufferSize="1" bufferColor="255,255,255,255" bufferJoinStyle="128" bufferDraw="0" bufferSizeMapUnitScale="3x:0,0,0,0,0,0" bufferNoFill="1" bufferSizeUnits="MM" bufferOpacity="1" bufferBlendMode="0"/>
    <background shapeRadiiMapUnitScale="3x:0,0,0,0,0,0" shapeOpacity="1" shapeSVGFile="" shapeBorderWidthUnit="MM" shapeBlendMode="0" shapeSizeType="0" shapeSizeY="0" shapeSizeUnit="MM" shapeSizeMapUnitScale="3x:0,0,0,0,0,0" shapeOffsetMapUnitScale="3x:0,0,0,0,0,0" shapeBorderColor="128,128,128,255" shapeType="0" shapeDraw="0" shapeOffsetX="0" shapeOffsetUnit="MM" shapeBorderWidthMapUnitScale="3x:0,0,0,0,0,0" shapeOffsetY="0" shapeRadiiY="0" shapeJoinStyle="64" shapeRadiiX="0" shapeBorderWidth="0" shapeRotationType="0" shapeSizeX="0" shapeRadiiUnit="MM" shapeFillColor="255,255,255,255" shapeRotation="0"/>
    <shadow shadowRadiusUnit="MM" shadowUnder="0" shadowOffsetGlobal="1" shadowColor="0,0,0,255" shadowOffsetAngle="135" shadowRadius="1.5" shadowOffsetUnit="MM" shadowRadiusMapUnitScale="3x:0,0,0,0,0,0" shadowOpacity="0.7" shadowOffsetDist="1" shadowScale="100" shadowDraw="0" shadowOffsetMapUnitScale="3x:0,0,0,0,0,0" shadowRadiusAlphaOnly="0" shadowBlendMode="6"/>
