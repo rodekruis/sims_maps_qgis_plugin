@@ -25,7 +25,8 @@ from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
                        QgsPrintLayout,
                        QgsReadWriteContext,
-                       QgsApplication)
+                       QgsApplication,
+                      QgsLayoutItemLabel)
 from .logos import RcLogos
 from .layout_config import (layoutConfiguration,
                             simsDisclamers,
@@ -212,6 +213,13 @@ class SimsMaps:
         if map is not None:
             #print(map.crs().description())
             map.zoomToExtent(self.iface.mapCanvas().extent())
+
+        # set default label values
+        for configurationItem in layoutConfiguration:
+            label = self.getItemById(layout, configurationItem['code'])
+            if label is not None and isinstance(label, QgsLayoutItemLabel):
+                if configurationItem['default'] is not None:
+                    label.setText(configurationItem['default'])
 
         # set overview map
         # set scale
