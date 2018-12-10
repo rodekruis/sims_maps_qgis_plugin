@@ -26,7 +26,10 @@ from qgis.core import (QgsProject,
                        QgsPrintLayout,
                        QgsReadWriteContext,
                        QgsApplication,
-                      QgsLayoutItemLabel)
+                       QgsLayoutItemLabel,
+                       QgsVectorLayer,
+                       QgsCoordinateReferenceSystem,
+                       QgsCoordinateTransform)
 from .logos import RcLogos
 from .layout_config import (layoutConfiguration,
                             simsDisclamers,
@@ -48,13 +51,18 @@ class SimsMaps:
         self.dataPath = os.path.join(self.pluginDir, u'data')
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, u'logos', u'logos.csv'))
+        self.worldLayerId = None
 
         self.addIconPath()
-        self.addColorScheme()
+        self.colorScheme = QgsSimsColorScheme()
+        #self.addColorScheme()
 
 
     def initGui(self):
         print(u'initGui')
+
+        #QgsApplication.colorSchemeRegistry().addColorScheme(self.colorscheme)
+        self.addColorScheme()
 
         self.toolBar = self.iface.addToolBar(u'SIMS Maps')
         #self.toolButtonCreateLayout = QToolButton()
@@ -106,6 +114,7 @@ class SimsMaps:
 
         self.removeIconPath()
         self.removeColorScheme()
+        self.removeWorldLayer()
 
         # TODO: loop designers to remove connections and actions
 
@@ -131,11 +140,7 @@ class SimsMaps:
 
     def addColorScheme(self):
         print(u'add simsColorScheme')
-        cs = QgsSimsColorScheme()
-        print(cs)
-        QgsApplication.colorSchemeRegistry().addColorScheme(cs)
-        for c in QgsApplication.colorSchemeRegistry().schemes():
-            print('-' + c.schemeName())
+        QgsApplication.colorSchemeRegistry().addColorScheme(self.colorScheme)
 
 
     def removeColorScheme(self):
@@ -144,11 +149,8 @@ class SimsMaps:
         for cs in QgsApplication.colorSchemeRegistry().schemes():
             if cs.schemeName() in [u'', u'SIMS Colors']:
                 schemesToRemove.append(cs)
-        print(schemesToRemove)
         for cs in schemesToRemove:
             QgsApplication.colorSchemeRegistry().removeColorScheme(cs)
-        for c in QgsApplication.colorSchemeRegistry().schemes():
-            print('-' + c.schemeName())
 
 
     def showLayoutDialog(self):
@@ -178,6 +180,40 @@ class SimsMaps:
             cb.addItem(key)
 
         self.createLayoutDialog.show()
+
+
+    def addWorldLayer(self):
+        if self.worldLayerId is not None:
+             try:
+                  layer = QgsProject.instance().mapLayers()[self.worldLayerId]
+                  return layer
+             except KeyError:
+                 print(u'World Layer not present')
+        layerName = u'SIMS_world_overview'
+        worldShp = os.path.join(QgsApplication.pkgDataPath(), u'resources', u'data', u'world_map.shp')
+
+        layer = self.iface.addVectorLayer(worldShp, layerName, u'ogr')
+        # TODO: set layer down in background
+        '''
+        layer = QgsVectorLayer(worldShp, layerName, u'ogr')
+        root = QgsProject.instance().layerTreeRoot()
+        QgsMapLayerRegistry.instance().addMapLayer(layer, False)
+        node_layer1 = root.addLayer(layer)
+        '''
+
+        qml = os.path.join(self.dataPath, u'world_map_overview.qml')
+        layer.loadNamedStyle(qml)
+
+        self.worldLayerId = layer.id()
+        return layer
+
+
+    def removeWorldLayer(self):
+        if self.worldLayerId is not None:
+             try:
+                  QgsProject.instance().removeMapLayers([self.worldLayerId])
+             except KeyError:
+                 print(u'World Layer not present')
 
 
     def createLayout(self):
@@ -222,6 +258,27 @@ class SimsMaps:
                     label.setText(configurationItem['default'])
 
         # set overview map
+        map = self.getItemById(layout, u'RC_overview')
+        if map is not None:
+            worldLayer = self.addWorldLayer()
+            map.setFollowVisibilityPreset(False)
+            map.setKeepLayerSet(True)
+            map.setLayers([worldLayer])
+
+            overviewCrs = QgsCoordinateReferenceSystem("EPSG:54030")
+            map.setCrs(overviewCrs)
+
+            extent = worldLayer.extent()
+            layerCrs = worldLayer.sourceCrs()
+            if not layerCrs == overviewCrs:
+                transform = QgsCoordinateTransform(layerCrs, overviewCrs, QgsProject.instance())
+                extent = transform.transformBoundingBox(extent)
+            map.zoomToExtent(extent)
+
+            root = QgsProject.instance().layerTreeRoot()
+            rl = root.findLayer(worldLayer.id())
+            rl.setItemVisibilityChecked(False)
+
         # set scale
         # set page size
         # set disclamer

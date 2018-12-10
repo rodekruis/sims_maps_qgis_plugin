@@ -12,6 +12,7 @@ class RcLogos():
         result += u']'
         return result
 
+
     def readFromCsv(self, filename):
         csvFile = open(filename, encoding=u'utf-8', mode=u'r', newline=u'')
         csvReader = csv.reader(csvFile, delimiter=';', quotechar='"')
@@ -22,6 +23,7 @@ class RcLogos():
             self.logos.append(row)
 
         csvFile.close()
+
 
     def getFileNames(self, sorted=True):
         result = []
