@@ -154,8 +154,9 @@ class SimsMaps:
 
 
     def showLayoutDialog(self):
-        print(u'createLayoutDialog()')
+        print(u'showLayoutDialog()')
 
+        # templates
         cb = self.createLayoutDialog.comboBoxTemplate
         while cb.count() > 0:
             cb.removeItem(0)
@@ -172,7 +173,7 @@ class SimsMaps:
         for fn in self.logos.getFileNames():
             cb.addItem(fn)
 
-        # sims disclamers
+        # languages
         cb = self.createLayoutDialog.comboBoxLanguage
         while cb.count() > 0:
             cb.removeItem(0)
@@ -180,6 +181,7 @@ class SimsMaps:
             cb.addItem(key)
 
         self.createLayoutDialog.show()
+        print(u'showLayoutDialog() finished')
 
 
     def addWorldLayer(self):
@@ -439,7 +441,7 @@ class SimsMaps:
         #milis_logo.setAlignment(Qt.AlignCenter)
         filename = self.createLayoutDialog.comboBoxNsLogo.currentText()
         filename = os.path.join(self.dataPath, u'logos', filename)
-        print(filename)
+        #print(filename)
         pm = QPixmap(filename)
         w = self.createLayoutDialog.labelImagePreview.width()
         h = self.createLayoutDialog.labelImagePreview.height()
