@@ -337,7 +337,7 @@ class SimsMaps:
         # set North Arrow
         picture = self.getItemById(layout, u'RC_northarrow')
         if picture is not None:
-            logoSvg = os.path.join(QgsApplication.prefixPath(), u'share', u'qgis', u'svg', u'arrows', u'NorthArrow_02.svg')
+            logoSvg = os.path.join(QgsApplication.pkgDataPath(), u'svg', u'arrows', u'NorthArrow_02.svg')
             picture.setPicturePath(logoSvg)
 
         # clear default label values
