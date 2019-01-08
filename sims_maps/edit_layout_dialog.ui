@@ -6,144 +6,91 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
-    <height>360</height>
+    <width>477</width>
+    <height>189</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Edit SIMS Layout</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>420</x>
-     <y>290</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="gridLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>20</y>
-     <width>711</width>
-     <height>201</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="2">
-     <widget class="QLineEdit" name="lineEditRcDate">
-      <property name="placeholderText">
-       <string>DD MMMM YYYY</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="labelRcAppealCode">
-      <property name="text">
-       <string>Appeal code</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="labelRcDate">
-      <property name="text">
-       <string>Date</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="labelRcTitle">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="text">
-       <string>Title</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLineEdit" name="lineEditRcTitle">
-      <property name="placeholderText">
-       <string>Map content, Location, Date</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="labelRcGlideNumber">
-      <property name="text">
-       <string>Glide number</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QLineEdit" name="lineEditRcAppealCode">
-      <property name="placeholderText">
-       <string>MDRNL0XX</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLineEdit" name="lineEditRcGlideNumber">
-      <property name="placeholderText">
-       <string>NL-2017000001-GIS</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-   <zorder>lineEditRcTitle</zorder>
-   <zorder>lineEditRcDate</zorder>
-   <zorder>labelRcDate</zorder>
-   <zorder>labelRcAppealCode</zorder>
-   <zorder>labelRcGlideNumber</zorder>
-   <zorder>lineEditRcAppealCode</zorder>
-   <zorder>lineEditRcGlideNumber</zorder>
-   <zorder>labelRcTitle</zorder>
-  </widget>
-  <widget class="QLineEdit" name="lineEditChecked1_2">
-   <property name="geometry">
-    <rect>
-     <x>1087</x>
-     <y>200</y>
-     <width>96</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEditClientApp1_2">
-   <property name="geometry">
-    <rect>
-     <x>1291</x>
-     <y>200</y>
-     <width>96</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEditApproved1_2">
-   <property name="geometry">
-    <rect>
-     <x>1189</x>
-     <y>200</y>
-     <width>96</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelRcTitle">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEditRcTitle">
+       <property name="placeholderText">
+        <string>Map content, Location, Date</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelRcDate">
+       <property name="text">
+        <string>Date</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lineEditRcDate">
+       <property name="placeholderText">
+        <string>DD MMMM YYYY</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelRcAppealCode">
+       <property name="text">
+        <string>Appeal code</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEditRcAppealCode">
+       <property name="placeholderText">
+        <string>MDRNL0XX</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="labelRcGlideNumber">
+       <property name="text">
+        <string>Glide number</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="lineEditRcGlideNumber">
+       <property name="placeholderText">
+        <string>NL-2017000001-GIS</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <tabstops>
   <tabstop>lineEditRcTitle</tabstop>
-  <tabstop>lineEditApproved1_2</tabstop>
-  <tabstop>lineEditChecked1_2</tabstop>
-  <tabstop>lineEditClientApp1_2</tabstop>
  </tabstops>
  <resources/>
  <connections>

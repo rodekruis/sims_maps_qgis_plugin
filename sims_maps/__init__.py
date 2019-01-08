@@ -31,7 +31,7 @@ from qgis.core import (QgsProject,
                        QgsCoordinateReferenceSystem,
                        QgsCoordinateTransform)
 from .logos import RcLogos
-from .layout_config import (layoutConfiguration,
+from .layout_config import (simsLayoutConfiguration,
                             simsDisclamers,
                             simsLogoTexts,
                             simsIfrcLogos,
@@ -68,7 +68,7 @@ class SimsMaps:
         #self.toolButtonCreateLayout = QToolButton()
         #self.toolBar.addAction(self.toolButtonCreateLayout)
         icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
-        self.actionCreateLayout = QAction(icon, u'SIMS Maps Cross', parent=self.iface.mainWindow())
+        self.actionCreateLayout = QAction(icon, u'Create SIMS Layout', parent=self.iface.mainWindow())
         self.toolBar.addAction(self.actionCreateLayout)
         '''
         w = self.toolBar.widgetForAction(self.actionCreateLayout)
@@ -253,7 +253,7 @@ class SimsMaps:
             map.zoomToExtent(self.iface.mapCanvas().extent())
 
         # set default label values
-        for configurationItem in layoutConfiguration:
+        for configurationItem in simsLayoutConfiguration:
             label = self.getItemById(layout, configurationItem['code'])
             if label is not None and isinstance(label, QgsLayoutItemLabel):
                 if configurationItem['default'] is not None:
@@ -352,7 +352,7 @@ class SimsMaps:
         designer.titleblockDialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
         # TODO: Find out if this needs to be disconnected, and when
 
-        for configurationItem in layoutConfiguration:
+        for configurationItem in simsLayoutConfiguration:
             #print(configurationItem)
             label = self.getTitleblockWidget(designer, configurationItem['label'])
             edit = self.getTitleblockWidget(designer, configurationItem['edit'])
@@ -391,7 +391,7 @@ class SimsMaps:
     def updateDesigner(self, designer):
         print('updateDesigner')
 
-        for configurationItem in layoutConfiguration:
+        for configurationItem in simsLayoutConfiguration:
             label = self.getTitleblockWidget(designer, configurationItem['label'])
             edit = self.getTitleblockWidget(designer, configurationItem['edit'])
             if edit.isEnabled():
@@ -414,7 +414,7 @@ class SimsMaps:
 
         tb = designer.actionsToolbar()
         icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
-        action = QAction(icon, u'Edit SIMS map', parent=designer)
+        action = QAction(icon, u'Edit SIMS Layout', parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
         tb.addAction(action)
 

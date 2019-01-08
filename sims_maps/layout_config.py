@@ -1,4 +1,4 @@
-layoutConfiguration = [
+simsLayoutConfiguration = [
     {u'code': u'RC_title', u'label': u'labelRcTitle', u'edit': u'lineEditRcTitle', u'default': u''},
     {u'code': u'RC_date', u'label': u'labelRcDate', u'edit': u'lineEditRcDate', u'default': u''},
     {u'code': u'RC_appealcode', u'label': u'labelRcAppealCode', u'edit': u'lineEditRcAppealCode', u'default': u''},
