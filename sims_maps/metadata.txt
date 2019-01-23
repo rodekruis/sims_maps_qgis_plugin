@@ -1,7 +1,20 @@
 [general]
 name=SIMS Map Layouts
 description=Plugin for creating SIMS map layouts
-version=0.1.0
+version=1.0.0
 qgisMinimumVersion=3.4
 author=510, an initiative of The Netherlands Red Cross
 email=rnijssen@rodekruis.nl
+
+about=This plugin will make life easier for those who need to make RCRC SIMS maps. It will help getting the layout done in a fast and consistent way.
+
+homepage=https://github.com/rodekruis/sims_maps_qgis_plugin
+repository=https://github.com/rodekruis/sims_maps_qgis_plugin
+tracker=https://github.com/rodekruis/sims_maps_qgis_plugin/issues
+
+tags=sims,red,cross,510,map,layout
+
+icon=create_layout_crystal.svg
+
+experimental=False
+deprecated=False

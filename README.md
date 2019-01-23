@@ -28,3 +28,13 @@ ln -s ~/git/sims_maps_qgis_plugin/sims_maps_generated/ sims_maps
 ```
 
 * Start or restart QGIS3. Reload the plugin with the experimental "Plugin Reloader" plugin.
+
+
+## License
+
+Licensed under the terms of GNU GPL 2
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
