@@ -44,7 +44,7 @@ the Free Software Foundation; either version 2 of the License, or
 * The plugin add the SIMS colors to the standard QGIS color picker, for use
 anywhere in QGIS.
 
-* The plugin adds the OCHO 2012 and 2018 icons for use in an SVG symbology.
+* The plugin adds the OCHA 2012 and 2018 icons for use in an SVG symbology.
 
 * The "Create SIMS Map Layout" button in the QGIS toolbar generates and opens a
 layout based on chosen template. You can choose the NS logo, the plugin name and
