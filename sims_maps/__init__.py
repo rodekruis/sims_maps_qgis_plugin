@@ -162,7 +162,7 @@ class SimsMaps:
             cb.removeItem(0)
 
         #cb.addItem('')
-        for file in os.listdir(self.dataPath):
+        for file in sorted(os.listdir(self.dataPath), reverse=True):
             if file.endswith(u'.qpt'):
                 cb.addItem(file)
 
