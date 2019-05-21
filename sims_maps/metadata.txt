@@ -1,7 +1,7 @@
 [general]
 name=SIMS Map Layouts
 description=Plugin for creating SIMS map layouts
-version=1.0.0
+version=1.0.1
 qgisMinimumVersion=3.4
 author=510, an initiative of The Netherlands Red Cross
 email=rnijssen@rodekruis.nl
@@ -13,6 +13,11 @@ repository=https://github.com/rodekruis/sims_maps_qgis_plugin
 tracker=https://github.com/rodekruis/sims_maps_qgis_plugin/issues
 
 tags=sims,red,cross,510,map,layout
+
+# Uncomment the following line and add your changelog:
+changelog:
+    1.0.1   (05-2019) new templates for A3, A2, A1 and A0 landscape
+    1.0.0   (01-2019) initial version
 
 icon=create_layout_crystal.svg
 
