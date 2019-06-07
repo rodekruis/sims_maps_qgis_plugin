@@ -16,7 +16,7 @@ import os
 from datetime import datetime
 from functools import partial
 
-from PyQt5.QtWidgets import QAction, QMessageBox, QLineEdit, QCheckBox, QToolButton
+from PyQt5.QtWidgets import QAction, QMessageBox, QLineEdit, QCheckBox, QToolButton, QTableWidgetItem
 from PyQt5.QtCore import QFile, Qt
 from PyQt5.QtXml import QDomDocument
 from PyQt5.QtGui import QIcon, QPixmap
@@ -168,10 +168,18 @@ class SimsMaps:
 
         # ns logos
         cb = self.createLayoutDialog.comboBoxNsLogo
+        tab = self.createLayoutDialog.tableWidgetNsLogo
+
         while cb.count() > 0:
             cb.removeItem(0)
+        tab.setRowCount(0)
+
+        rowNum = 0
         for fn in self.logos.getFileNames():
             cb.addItem(fn)
+
+            tab.insertRow(rowNum)
+            tab.setItem(rowNum, 2, QTableWidgetItem(fn))
 
         # languages
         cb = self.createLayoutDialog.comboBoxLanguage

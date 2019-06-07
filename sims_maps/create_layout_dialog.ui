@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>476</width>
-    <height>201</height>
+    <width>787</width>
+    <height>972</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,24 +51,17 @@
         <widget class="QLineEdit" name="lineEditName"/>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="labelNsLogo">
-         <property name="text">
-          <string>NS logo</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="comboBoxNsLogo"/>
-       </item>
-       <item row="3" column="0">
         <widget class="QLabel" name="labelLanguage">
          <property name="text">
           <string>Language</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <widget class="QComboBox" name="comboBoxLanguage"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="comboBoxNsLogo"/>
        </item>
       </layout>
      </item>
@@ -99,6 +92,34 @@
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="lineEditNsLogoFilter"/>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidgetNsLogo">
+     <property name="columnCount">
+      <number>3</number>
+     </property>
+     <column>
+      <property name="text">
+       <string>code</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>country</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>logo</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="tableViewNsLogo"/>
    </item>
   </layout>
  </widget>
