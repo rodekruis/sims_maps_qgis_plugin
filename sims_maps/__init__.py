@@ -191,10 +191,10 @@ class SimsMaps:
                   return layer
              except KeyError:
                  print(u'World Layer not present')
-        layerName = u'SIMS_world_overview'
-        worldShp = os.path.join(QgsApplication.pkgDataPath(), u'resources', u'data', u'world_map.shp')
 
-        layer = self.iface.addVectorLayer(worldShp, layerName, u'ogr')
+        layerName = u'SIMS_world_overview'
+        worldGpkg = os.path.join(self.dataPath, u'geopackage.gpkg' + u'|layername=world_map')
+        layer = self.iface.addVectorLayer(worldGpkg, layerName, u'ogr')
         # TODO: set layer down in background
         '''
         layer = QgsVectorLayer(worldShp, layerName, u'ogr')
@@ -203,8 +203,8 @@ class SimsMaps:
         node_layer1 = root.addLayer(layer)
         '''
 
-        qml = os.path.join(self.dataPath, u'world_map_overview.qml')
-        layer.loadNamedStyle(qml)
+        #qml = os.path.join(self.dataPath, u'world_map_overview.qml')
+        #layer.loadNamedStyle(qml)
 
         self.worldLayerId = layer.id()
         return layer
