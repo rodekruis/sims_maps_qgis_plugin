@@ -203,9 +203,6 @@ class SimsMaps:
         node_layer1 = root.addLayer(layer)
         '''
 
-        #qml = os.path.join(self.dataPath, u'world_map_overview.qml')
-        #layer.loadNamedStyle(qml)
-
         self.worldLayerId = layer.id()
         return layer
 
