@@ -193,7 +193,7 @@ class SimsMaps:
                  print(u'World Layer not present')
 
         layerName = u'SIMS_world_overview'
-        worldGpkg = os.path.join(self.dataPath, u'geopackage.gpkg' + u'|layername=world_map')
+        worldGpkg = os.path.join(self.dataPath, u'sims_maps_resources.gpkg' + u'|layername=world_map')
         layer = self.iface.addVectorLayer(worldGpkg, layerName, u'ogr')
         # TODO: set layer down in background
         '''
