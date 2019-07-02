@@ -51,6 +51,7 @@ class SimsMaps:
         self.dataPath = os.path.join(self.pluginDir, u'data')
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, u'logos', u'logos.csv'))
+        self.worldLayerPath = os.path.join(self.dataPath, u'sims_maps_resources.gpkg|layername=world_map')
         self.worldLayerId = None
         self.layoutBaseName = 'sims_layout'
 
@@ -60,22 +61,14 @@ class SimsMaps:
 
 
     def setLayerPath(self):
-        worldGpkg = os.path.join(self.dataPath, u'sims_maps_resources.gpkg|layername=world_map')
-        print(u'setLayerPath()')
+        #print(u'setLayerPath()')
         worldLayerName = u'SIMS_world_overview'
-        #for layer in self.iface.mapCanvas().layers():
         for layerId in QgsProject.instance().mapLayers():
-            print(u'-- {0}'.format(layerId))
-            print(type(QgsProject.instance().mapLayer(layerId).dataProvider()))
+            #print(u'-- {0}'.format(layerId))
             if worldLayerName in layerId:
-                print(u'ID match found!')
+                #print(u'ID match found!')
                 worldLayer = QgsProject.instance().mapLayer(layerId)
-                worldLayer.setDataSource(worldGpkg, worldLayerName, u'ogr')
-
-
-    #def projectRead(self):
-    #    print('projectRead')
-    #    self.setLayerPath()
+                worldLayer.setDataSource(self.worldLayerPath, worldLayerName, u'ogr')
 
 
     def initGui(self):
@@ -239,8 +232,7 @@ class SimsMaps:
                  print(u'World Layer not present')
 
         layerName = u'SIMS_world_overview'
-        worldGpkg = os.path.join(self.dataPath, u'sims_maps_resources.gpkg' + u'|layername=world_map')
-        layer = self.iface.addVectorLayer(worldGpkg, layerName, u'ogr')
+        layer = self.iface.addVectorLayer(self.worldLayerPath, layerName, u'ogr')
         # TODO: set layer down in background
         '''
         layer = QgsVectorLayer(worldShp, layerName, u'ogr')
