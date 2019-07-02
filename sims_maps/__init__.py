@@ -59,6 +59,25 @@ class SimsMaps:
         #self.addColorScheme()
 
 
+    def setLayerPath(self):
+        worldGpkg = os.path.join(self.dataPath, u'sims_maps_resources.gpkg|layername=world_map')
+        print(u'setLayerPath()')
+        worldLayerName = u'SIMS_world_overview'
+        #for layer in self.iface.mapCanvas().layers():
+        for layerId in QgsProject.instance().mapLayers():
+            print(u'-- {0}'.format(layerId))
+            print(type(QgsProject.instance().mapLayer(layerId).dataProvider()))
+            if worldLayerName in layerId:
+                print(u'ID match found!')
+                worldLayer = QgsProject.instance().mapLayer(layerId)
+                worldLayer.setDataSource(worldGpkg, worldLayerName, u'ogr')
+
+
+    #def projectRead(self):
+    #    print('projectRead')
+    #    self.setLayerPath()
+
+
     def initGui(self):
         print(u'initGui')
 
@@ -88,6 +107,7 @@ class SimsMaps:
         self.iface.layoutDesignerClosed.connect(self.designerClosed)
         self.actionCreateLayout.triggered.connect(self.showLayoutDialog)
         self.createLayoutDialog.comboBoxNsLogo.currentIndexChanged.connect(self.updateLabelPreview)
+        QgsProject.instance().readProject.connect(self.setLayerPath)
 
         # TODO: loop existing designers to add connections and actions
 
@@ -105,6 +125,10 @@ class SimsMaps:
             pass
         try:
             self.actionCreateLayout.triggered.disconnect()
+        except Exception:
+            pass
+        try:
+            QgsProject.instance().readProject.disconnect()
         except Exception:
             pass
 
