@@ -18,6 +18,8 @@ class RcLogos():
         csvReader = csv.reader(csvFile, delimiter=';', quotechar='"')
 
         self.logos = []
+        #issue14: skip header of logos.csv
+        next(csvReader, None)
         for row in csvReader:
             #print(row)
             self.logos.append(row)
