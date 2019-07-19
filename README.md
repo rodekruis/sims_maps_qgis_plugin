@@ -52,3 +52,13 @@ the language.
 
 * The "Edit Layout" button in the layout window allows you to easily change
 label settings like title, date and project codes.
+
+**WARNING! This plugin is designed to function on single machines only!**
+
+So, saving a project with SIMS layouts and reopening it on another machine will
+probably result in broken links to layers and images, even if the plugin has been
+installed on the other machine. A QGIS update could also result in problems on
+the same machine, because the install path contains the version name.
+
+We are working on a solution but fixing this properly will need a change in QGIS
+itself.
