@@ -52,6 +52,7 @@ class SimsMaps:
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, u'logos', u'logos.csv'))
         self.worldLayerId = None
+        self.layoutBaseName = 'sims_layout'
 
         self.addIconPath()
         self.colorScheme = QgsSimsColorScheme()
@@ -153,6 +154,24 @@ class SimsMaps:
             QgsApplication.colorSchemeRegistry().removeColorScheme(cs)
 
 
+    def getLayoutName(self):
+        # returns a unique layout name for the project
+        template = self.layoutBaseName + '_{0:0>3}'
+
+        existingNames = []
+        project = QgsProject.instance()
+        layoutManager = project.layoutManager()
+        for layout in layoutManager.layouts():
+            existingNames.append(layout.name())
+
+        for i in range(1, 1000):
+            name = template.format(i)
+            if not name in existingNames:
+                break
+
+        return name
+
+
     def showLayoutDialog(self):
         print(u'showLayoutDialog()')
 
@@ -161,7 +180,10 @@ class SimsMaps:
         while cb.count() > 0:
             cb.removeItem(0)
 
-        #cb.addItem('')
+        # name
+        self.createLayoutDialog.lineEditName.setText(self.getLayoutName())
+
+        # templates
         for file in sorted(os.listdir(self.dataPath), reverse=True):
             if file.endswith(u'.qpt'):
                 cb.addItem(file)
@@ -278,8 +300,6 @@ class SimsMaps:
             rl = root.findLayer(worldLayer.id())
             rl.setItemVisibilityChecked(False)
 
-        # set scale
-        # set page size
         # set disclamer
         languageChoice = self.createLayoutDialog.comboBoxLanguage.currentText()
 
@@ -291,9 +311,13 @@ class SimsMaps:
         if label is not None:
             label.setText(simsLogoTexts[languageChoice])
 
+        # set title
+        label = self.getItemById(layout, u'RC_title')
+        if label is not None:
+            label.setText(self.createLayoutDialog.lineEditName.text())
 
         # set Copyright
-        # evt. automatisch: [%'© SIMS '  || year(now())%]
+        # possibly dynamically: [%'© SIMS '  || year(now())%]
         '''
         label = self.getItemById(layout, u'COPYRIGHT')
         if label is not None:
