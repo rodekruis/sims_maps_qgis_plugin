@@ -39,7 +39,7 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 
-## Manual
+## User Guide
 
 * The plugin add the SIMS colors to the standard QGIS color picker, for use
 anywhere in QGIS.
@@ -53,12 +53,13 @@ the language.
 * The "Edit Layout" button in the layout window allows you to easily change
 label settings like title, date and project codes.
 
-**WARNING! This plugin is designed to function on single machines only!**
+---
+**IMPORTANT NOTICE! This plugin is designed to function on single machines only!**
 
 So, saving a project with SIMS layouts and reopening it on another machine will
 probably result in broken links to layers and images, even if the plugin has been
 installed on the other machine. A QGIS update could also result in problems on
 the same machine, because the install path contains the version name.
 
-We are working on a solution but fixing this properly will need a change in QGIS
-itself.
+We are currently working on an improvement that addresses the above, but the problem stems from QGIS itself and how it handles dataset file paths in the project file. 
+Thus it will need a change in the QGIS source code itself.
