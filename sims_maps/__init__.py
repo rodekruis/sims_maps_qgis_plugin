@@ -73,16 +73,6 @@ class SimsMaps:
 
         return path
 
-    def setLayerPath(self):
-        print(u'setLayerPath()')
-        worldLayerName = u'SIMS_world_overview'
-        for layerId in QgsProject.instance().mapLayers():
-            #print(u'-- {0}'.format(layerId))
-            if worldLayerName in layerId:
-                #print(u'ID match found!')
-                worldLayer = QgsProject.instance().mapLayer(layerId)
-                worldLayer.setDataSource(self.worldLayerPath, worldLayerName, u'ogr', True)
-
     def initGui(self):
         print(u'initGui')
         #QgsApplication.colorSchemeRegistry().addColorScheme(self.colorscheme)
@@ -111,8 +101,6 @@ class SimsMaps:
         self.iface.layoutDesignerClosed.connect(self.designerClosed)
         self.actionCreateLayout.triggered.connect(self.showLayoutDialog)
         self.createLayoutDialog.comboBoxNsLogo.currentIndexChanged.connect(self.updateLabelPreview)
-        self.iface.newProjectCreated.connect(self.setLayerPath)
-        # QgsProject.instance().readProject.connect(self.setLayerPath)
 
         # TODO: loop existing designers to add connections and actions
 
