@@ -63,15 +63,6 @@ class SimsMaps:
 
         QgsPathResolver.setPathPreprocessor(self.simsMapsPathPreprocessor)
 
-    def simsMapsPathPreprocessor(self, path):
-        print(u'simsMapsPathPreprocessor()')
-
-        PluginFolder = os.path.basename(self.pluginDir)
-        if not os.path.isfile(path) and PluginFolder in path:
-            path = self.pluginDir + path.split(PluginFolder)[1]
-            print(path)
-
-        return path
 
     def initGui(self):
         print(u'initGui')
@@ -131,6 +122,15 @@ class SimsMaps:
         self.removeWorldLayer()
 
         # TODO: loop designers to remove connections and actions
+
+    def simsMapsPathPreprocessor(self, path):
+        print(u'simsMapsPathPreprocessor()')
+
+        pluginFolder = os.path.basename(self.pluginDir)
+        if not os.path.isfile(path) and pluginFolder in path:
+            path = self.pluginDir + path.split(pluginFolder)[1]
+
+        return path
 
 
     def addIconPath(self):
