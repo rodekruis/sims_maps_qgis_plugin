@@ -25,7 +25,7 @@ probably result in broken links to layers and images, even if the plugin has bee
 installed on the other machine. A QGIS update could also result in problems on
 the same machine, because the install path contains the version name.
 
-We are currently working on an improvement that addresses the above, but the problem stems from QGIS itself and how it handles dataset file paths in the project file. 
+We are currently working on an improvement that addresses the above, but the problem stems from QGIS itself and how it handles dataset file paths in the project file.
 Thus it will need a change in the QGIS source code itself.
 
 ## Setup development environment
@@ -41,6 +41,14 @@ path/to/git/
 |--logos/
 
 ```
+
+* To create or update the .ts translation files based on the source code, run the generate_ts script. This will add newly added translatable strings to the .ts files for all languages. It will not clear already translated strings.
+```python3 generate_ts.py```
+New languages can be added by adding the country code to the languages list somewhere high up in the script:
+```languages = ['nl', 'en', 'fr']```
+
+* To create or update the .qm translation files based on every .ts file, run the generate_qm script.
+```python3 generate_qm.py```
 
 * Run the generate_plugin script which will by default generate a directory with all the plugin content.
 ```python3 generate_plugin.py```
@@ -63,5 +71,3 @@ This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
-
-
