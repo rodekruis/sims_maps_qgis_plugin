@@ -23,6 +23,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
 from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
+                       QgsPathResolver,
                        QgsPrintLayout,
                        QgsReadWriteContext,
                        QgsApplication,
@@ -45,7 +46,7 @@ def classFactory(iface):
 
 class SimsMaps:
 
-    def __init__(self, iface):
+    def __init__(self, iface, none=None):
         self.iface = iface
         self.pluginDir = os.path.dirname(__file__)
         self.dataPath = os.path.join(self.pluginDir, u'data')
@@ -58,22 +59,32 @@ class SimsMaps:
         self.addIconPath()
         self.colorScheme = QgsSimsColorScheme()
         #self.addColorScheme()
+        self.badLayerHandler = None
 
+        QgsPathResolver.setPathPreprocessor(self.simsMapsPathPreprocessor)
+
+    def simsMapsPathPreprocessor(self, path):
+        print(u'simsMapsPathPreprocessor()')
+
+        PluginFolder = os.path.basename(self.pluginDir)
+        if not os.path.isfile(path) and PluginFolder in path:
+            path = self.pluginDir + path.split(PluginFolder)[1]
+            print(path)
+
+        return path
 
     def setLayerPath(self):
-        #print(u'setLayerPath()')
+        print(u'setLayerPath()')
         worldLayerName = u'SIMS_world_overview'
         for layerId in QgsProject.instance().mapLayers():
             #print(u'-- {0}'.format(layerId))
             if worldLayerName in layerId:
                 #print(u'ID match found!')
                 worldLayer = QgsProject.instance().mapLayer(layerId)
-                worldLayer.setDataSource(self.worldLayerPath, worldLayerName, u'ogr')
-
+                worldLayer.setDataSource(self.worldLayerPath, worldLayerName, u'ogr', True)
 
     def initGui(self):
         print(u'initGui')
-
         #QgsApplication.colorSchemeRegistry().addColorScheme(self.colorscheme)
         self.addColorScheme()
 
@@ -100,7 +111,8 @@ class SimsMaps:
         self.iface.layoutDesignerClosed.connect(self.designerClosed)
         self.actionCreateLayout.triggered.connect(self.showLayoutDialog)
         self.createLayoutDialog.comboBoxNsLogo.currentIndexChanged.connect(self.updateLabelPreview)
-        QgsProject.instance().readProject.connect(self.setLayerPath)
+        self.iface.newProjectCreated.connect(self.setLayerPath)
+        # QgsProject.instance().readProject.connect(self.setLayerPath)
 
         # TODO: loop existing designers to add connections and actions
 
@@ -118,10 +130,6 @@ class SimsMaps:
             pass
         try:
             self.actionCreateLayout.triggered.disconnect()
-        except Exception:
-            pass
-        try:
-            QgsProject.instance().readProject.disconnect()
         except Exception:
             pass
 
