@@ -128,7 +128,9 @@ class SimsMaps:
 
         pluginFolder = os.path.basename(self.pluginDir)
         if not os.path.isfile(path) and pluginFolder in path:
-            path = self.pluginDir + path.split(pluginFolder)[1]
+            validPathTail= path.split(pluginFolder)[1].lstrip(os.sep)
+            path = os.path.join(self.pluginDir, validPathTail)
+            print(path)
 
         return path
 
