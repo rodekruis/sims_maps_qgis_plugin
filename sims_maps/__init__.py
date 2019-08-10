@@ -46,7 +46,7 @@ def classFactory(iface):
 
 class SimsMaps:
 
-    def __init__(self, iface, none=None):
+    def __init__(self, iface):
         self.iface = iface
         self.pluginDir = os.path.dirname(__file__)
         self.dataPath = os.path.join(self.pluginDir, u'data')
