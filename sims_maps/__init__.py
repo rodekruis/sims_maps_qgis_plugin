@@ -59,9 +59,7 @@ class SimsMaps:
         self.addIconPath()
         self.colorScheme = QgsSimsColorScheme()
         #self.addColorScheme()
-        self.badLayerHandler = None
-
-        QgsPathResolver.setPathPreprocessor(self.simsMapsPathPreprocessor)
+        self.pathPreprocessorId = QgsPathResolver.setPathPreprocessor(self.simsMapsPathPreprocessor)
 
 
     def initGui(self):
@@ -111,7 +109,8 @@ class SimsMaps:
             self.actionCreateLayout.triggered.disconnect()
         except Exception:
             pass
-
+        if self.pathPreprocessorId is not None:
+            QgsPathResolver.removePathPreprocessor(self.pathPreprocessorId)
         # remove toolBar
         self.iface.removeToolBarIcon(self.actionCreateLayout)
         self.iface.mainWindow().removeToolBar(self.toolBar)
