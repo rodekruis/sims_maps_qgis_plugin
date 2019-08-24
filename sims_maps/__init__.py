@@ -124,11 +124,26 @@ class SimsMaps:
 
     def simsMapsPathPreprocessor(self, path):
         print(u'simsMapsPathPreprocessor()')
+        pluginParentPath, pluginFolder = os.path.split(self.pluginDir)
 
-        pluginFolder = os.path.basename(self.pluginDir)
-        if not os.path.isfile(path) and pluginFolder in path:
-            validPathTail = path.split(pluginFolder)[1].lstrip(u'/\\')
-            path = os.path.join(self.pluginDir, validPathTail)
+        if not os.path.isfile(path):
+            allparts = []
+            while 1:
+                parts = os.path.split(path)
+                if parts[0] == path:
+                    allparts.insert(0, parts[0])
+                    break
+                elif parts[1] == path:
+                    allparts.insert(0, parts[1])
+                    break
+                else:
+                    path = parts[0]
+                    allparts.insert(0, parts[1])
+
+            if pluginFolder in allparts:
+                #print(u'pluginFOlder in allparts')
+                path = os.path.join(pluginParentPath, *allparts[allparts.index(pluginFolder):])
+
             print(path)
         return path
 
