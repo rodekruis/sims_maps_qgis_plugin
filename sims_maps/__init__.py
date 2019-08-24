@@ -141,10 +141,8 @@ class SimsMaps:
                     allparts.insert(0, parts[1])
 
             if pluginFolder in allparts:
-                #print(u'pluginFOlder in allparts')
                 path = os.path.join(pluginParentPath, *allparts[allparts.index(pluginFolder):])
 
-            print(path)
         return path
 
     def addIconPath(self):
