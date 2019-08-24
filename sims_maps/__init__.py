@@ -127,12 +127,10 @@ class SimsMaps:
 
         pluginFolder = os.path.basename(self.pluginDir)
         if not os.path.isfile(path) and pluginFolder in path:
-            validPathTail= path.split(pluginFolder)[1].lstrip(os.sep)
+            validPathTail = path.split(pluginFolder)[1].lstrip(u'/\\')
             path = os.path.join(self.pluginDir, validPathTail)
             print(path)
-
         return path
-
 
     def addIconPath(self):
         print(u'addIconPath')
@@ -457,10 +455,8 @@ class SimsMaps:
 
         print(u'opened finished')
 
-
     def designerClosed(self):
         print(u'closed')
-
 
     def getItemById(self, layout, itemId):
         item = layout.itemById(itemId)
@@ -468,7 +464,6 @@ class SimsMaps:
             print(u'Layout does not contain item: \'{0}\''.format(itemId))
             return None
         return item
-
 
     def updateLabelPreview(self):
         #self.createLayoutDialog.labelImagePreview.setAlignment(Qt.AlignCenter)
