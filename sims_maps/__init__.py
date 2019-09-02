@@ -127,21 +127,21 @@ class SimsMaps:
         pluginParentPath, pluginFolder = os.path.split(self.pluginDir)
 
         if not os.path.isfile(path):
-            allparts = []
+            allParts = []
             while 1:
                 parts = os.path.split(path)
                 if parts[0] == path:
-                    allparts.insert(0, parts[0])
+                    allParts.insert(0, parts[0])
                     break
                 elif parts[1] == path:
-                    allparts.insert(0, parts[1])
+                    allParts.insert(0, parts[1])
                     break
                 else:
                     path = parts[0]
-                    allparts.insert(0, parts[1])
+                    allParts.insert(0, parts[1])
 
-            if pluginFolder in allparts:
-                path = os.path.join(pluginParentPath, *allparts[allparts.index(pluginFolder):])
+            if pluginFolder in allParts:
+                path = os.path.join(pluginParentPath, *allParts[allParts.index(pluginFolder):])
 
         return path
 
