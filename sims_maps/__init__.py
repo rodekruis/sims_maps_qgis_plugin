@@ -62,6 +62,7 @@ class SimsMaps:
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, 'logos', 'logos.csv'))
         self.worldLayerPath = os.path.join(self.dataPath, u'sims_maps_resources.gpkg|layername=world_map')
+        self.worldLayerName = 'SIMS_world_overview'
         self.worldLayerId = None
         self.layoutBaseName = 'sims_layout'
 
@@ -264,8 +265,7 @@ class SimsMaps:
                  #print('World Layer not present')
 
         worldGpkg = os.path.join(self.dataPath, 'sims_maps_resources.gpkg' + '|layername=world_map')
-        layerName = 'SIMS_world_overview'
-        layer = self.iface.addVectorLayer(worldGpkg, layerName, 'ogr')
+        layer = self.iface.addVectorLayer(worldGpkg, self.worldLayerName, 'ogr')
         # TODO: set layer down in background
 
         self.worldLayerId = layer.id()
