@@ -16,8 +16,17 @@ import os
 from datetime import datetime
 from functools import partial
 
-from PyQt5.QtWidgets import QAction, QMessageBox, QLineEdit, QCheckBox, QToolButton
-from PyQt5.QtCore import QFile, Qt
+from PyQt5.QtWidgets import (QAction,
+                             QMessageBox,
+                             QLineEdit,
+                             QCheckBox,
+                             QToolButton)
+from PyQt5.QtCore import (QFile,
+                          Qt,
+                          QSettings,
+                          QCoreApplication,
+                          QTranslator,
+                          qVersion)
 from PyQt5.QtXml import QDomDocument
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
@@ -48,9 +57,9 @@ class SimsMaps:
     def __init__(self, iface):
         self.iface = iface
         self.pluginDir = os.path.dirname(__file__)
-        self.dataPath = os.path.join(self.pluginDir, u'data')
+        self.dataPath = os.path.join(self.pluginDir, 'data')
         self.logos = RcLogos()
-        self.logos.readFromCsv(os.path.join(self.dataPath, u'logos', u'logos.csv'))
+        self.logos.readFromCsv(os.path.join(self.dataPath, 'logos', 'logos.csv'))
         self.worldLayerId = None
         self.layoutBaseName = 'sims_layout'
 
@@ -58,28 +67,41 @@ class SimsMaps:
         self.colorScheme = QgsSimsColorScheme()
         #self.addColorScheme()
 
+        # initialize locale
+        locale = QSettings().value('locale/userLocale')[0:2]
+        print(locale)
+        locale_path = os.path.join(
+            self.pluginDir,
+            'i18n',
+            'sims_maps_{}.qm'.format(locale))
+        print(locale_path)
+
+        if os.path.exists(locale_path):
+            self.translator = QTranslator()
+            self.translator.load(locale_path)
+
+            if qVersion() > '4.3.3':
+                QCoreApplication.installTranslator(self.translator)
+
+
+    def tr(self, message):
+        return QCoreApplication.translate('SimsMaps', message)
+
 
     def initGui(self):
-        print(u'initGui')
+        print(self.tr('initGui'))
 
         #QgsApplication.colorSchemeRegistry().addColorScheme(self.colorscheme)
         self.addColorScheme()
 
-        self.toolBar = self.iface.addToolBar(u'SIMS Maps')
+        self.toolBar = self.iface.addToolBar('SIMS Maps')
         #self.toolButtonCreateLayout = QToolButton()
         #self.toolBar.addAction(self.toolButtonCreateLayout)
-        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
-        self.actionCreateLayout = QAction(icon, u'Create SIMS Layout', parent=self.iface.mainWindow())
+        icon = QIcon(os.path.join(self.pluginDir, 'create_layout_crystal.svg'))
+        self.actionCreateLayout = QAction(icon, self.tr('Create SIMS Layout'), parent=self.iface.mainWindow())
         self.toolBar.addAction(self.actionCreateLayout)
-        '''
-        w = self.toolBar.widgetForAction(self.actionCreateLayout)
-        print(w)
-        w.setPopupMode(QToolButton.MenuButtonPopup)
-        self.toolButtonCreateLayout = self.toolBar.addAction(self.actionCreateLayout)
-        print(self.actionCreateLayout)
-        '''
 
-        createLayoutUi = os.path.join(self.pluginDir, u'create_layout_dialog.ui')
+        createLayoutUi = os.path.join(self.pluginDir, 'create_layout_dialog.ui')
         self.createLayoutDialog = loadUi(createLayoutUi)
         self.createLayoutDialog.buttonBox.accepted.connect(self.createLayout)
 
@@ -91,7 +113,7 @@ class SimsMaps:
 
         # TODO: loop existing designers to add connections and actions
 
-        print(u'initGui finished')
+        #print(u'initGui finished')
 
 
     def unload(self):
@@ -121,8 +143,8 @@ class SimsMaps:
 
 
     def addIconPath(self):
-        print(u'addIconPath')
-        iconsDir = os.path.join(self.dataPath, u'SIMS-Icons')
+        print('addIconPath')
+        iconsDir = os.path.join(self.dataPath, 'SIMS-Icons')
         paths = QgsApplication.svgPaths()
         if not iconsDir in paths:
             paths.append(iconsDir)
@@ -130,8 +152,8 @@ class SimsMaps:
 
 
     def removeIconPath(self):
-        print(u'removeIconPath')
-        iconsDir = os.path.join(self.dataPath, u'SIMS-Icons')
+        print('removeIconPath')
+        iconsDir = os.path.join(self.dataPath, 'SIMS-Icons')
         paths = QgsApplication.svgPaths()
         i = paths.index(iconsDir)
         if i >= 0:
@@ -140,15 +162,15 @@ class SimsMaps:
 
 
     def addColorScheme(self):
-        print(u'add simsColorScheme')
+        #print('add simsColorScheme')
         QgsApplication.colorSchemeRegistry().addColorScheme(self.colorScheme)
 
 
     def removeColorScheme(self):
-        print(u'remove simsColorScheme')
+        #print(u'remove simsColorScheme')
         schemesToRemove = []
         for cs in QgsApplication.colorSchemeRegistry().schemes():
-            if cs.schemeName() in [u'', u'SIMS Colors']:
+            if cs.schemeName() in ['', 'SIMS Colors']:
                 schemesToRemove.append(cs)
         for cs in schemesToRemove:
             QgsApplication.colorSchemeRegistry().removeColorScheme(cs)
@@ -173,7 +195,7 @@ class SimsMaps:
 
 
     def showLayoutDialog(self):
-        print(u'showLayoutDialog()')
+        #print('showLayoutDialog()')
 
         # templates
         cb = self.createLayoutDialog.comboBoxTemplate
@@ -203,7 +225,7 @@ class SimsMaps:
             cb.addItem(key)
 
         self.createLayoutDialog.show()
-        print(u'showLayoutDialog() finished')
+        #print(u'showLayoutDialog() finished')
 
 
     def addWorldLayer(self):
@@ -212,18 +234,13 @@ class SimsMaps:
                   layer = QgsProject.instance().mapLayers()[self.worldLayerId]
                   return layer
              except KeyError:
-                 print(u'World Layer not present')
+                 pass
+                 #print('World Layer not present')
 
-        layerName = u'SIMS_world_overview'
-        worldGpkg = os.path.join(self.dataPath, u'sims_maps_resources.gpkg' + u'|layername=world_map')
-        layer = self.iface.addVectorLayer(worldGpkg, layerName, u'ogr')
+        layerName = self.tr('SIMS_world_overview')
+        worldGpkg = os.path.join(self.dataPath, 'sims_maps_resources.gpkg' + '|layername=world_map')
+        layer = self.iface.addVectorLayer(worldGpkg, layerName, 'ogr')
         # TODO: set layer down in background
-        '''
-        layer = QgsVectorLayer(worldShp, layerName, u'ogr')
-        root = QgsProject.instance().layerTreeRoot()
-        QgsMapLayerRegistry.instance().addMapLayer(layer, False)
-        node_layer1 = root.addLayer(layer)
-        '''
 
         self.worldLayerId = layer.id()
         return layer
@@ -234,11 +251,12 @@ class SimsMaps:
              try:
                   QgsProject.instance().removeMapLayers([self.worldLayerId])
              except KeyError:
-                 print(u'World Layer not present')
+                 pass
+                 #print(u'World Layer not present')
 
 
     def createLayout(self):
-        print(u'createLayout()')
+        #print('createLayout()')
 
         templateFile = self.createLayoutDialog.comboBoxTemplate.currentText()
         templateQpt = os.path.join(self.dataPath, templateFile)
@@ -250,7 +268,7 @@ class SimsMaps:
 
         oldLayout = layoutManager.layoutByName(layoutName)
         if oldLayout is not None:
-            print(u'removing: {}'.format(oldLayout))
+            #print('removing: {}'.format(oldLayout))
             layoutManager.removeLayout(oldLayout)
 
         # create new layout
@@ -266,7 +284,7 @@ class SimsMaps:
         layout.setName(layoutName)
 
         # set map properties
-        map = self.getItemById(layout, u'RC_map')
+        map = self.getItemById(layout, 'RC_map')
         if map is not None:
             #print(map.crs().description())
             map.zoomToExtent(self.iface.mapCanvas().extent())
@@ -279,7 +297,7 @@ class SimsMaps:
                     label.setText(configurationItem['default'])
 
         # set overview map
-        map = self.getItemById(layout, u'RC_overview')
+        map = self.getItemById(layout, 'RC_overview')
         if map is not None:
             worldLayer = self.addWorldLayer()
             map.setFollowVisibilityPreset(False)
@@ -303,62 +321,62 @@ class SimsMaps:
         # set disclamer
         languageChoice = self.createLayoutDialog.comboBoxLanguage.currentText()
 
-        label = self.getItemById(layout, u'RC_disclaimer')
+        label = self.getItemById(layout, 'RC_disclaimer')
         if label is not None:
             label.setText(simsDisclamers[languageChoice])
 
-        label = self.getItemById(layout, u'RC_logotext')
+        label = self.getItemById(layout, 'RC_logotext')
         if label is not None:
             label.setText(simsLogoTexts[languageChoice])
 
         # set title
-        label = self.getItemById(layout, u'RC_title')
+        label = self.getItemById(layout, 'RC_title')
         if label is not None:
             label.setText(self.createLayoutDialog.lineEditName.text())
 
         # set Copyright
         # possibly dynamically: [%'© SIMS '  || year(now())%]
         '''
-        label = self.getItemById(layout, u'COPYRIGHT')
+        label = self.getItemById(layout, 'COPYRIGHT')
         if label is not None:
             print(label)
-            label.setText(u'© SIMS {0}'.format(datetime.now().year))
+            label.setText('© SIMS {0}'.format(datetime.now().year))
 
         # set filename
-        label = self.getItemById(layout, u'FILENAME')
+        label = self.getItemById(layout, 'FILENAME')
         if label is not None:
             print(label)
             filename = QgsProject.instance().fileName()
-            if filename == u'':
-                filename = u'filename unknown, project not saved'
+            if filename == '':
+                filename = 'filename unknown, project not saved'
             label.setText(filename)
         '''
 
         # set NS logo
-        picture = self.getItemById(layout, u'RC_logo1')
+        picture = self.getItemById(layout, 'RC_logo1')
         if picture is not None:
             logoChoice = self.createLayoutDialog.comboBoxNsLogo.currentText()
-            logoSvg = os.path.join(self.dataPath, u'logos', logoChoice)
+            logoSvg = os.path.join(self.dataPath, 'logos', logoChoice)
             picture.setPicturePath(logoSvg)
 
         # set IFRC logo
-        picture = self.getItemById(layout, u'RC_logo2')
+        picture = self.getItemById(layout, 'RC_logo2')
         if picture is not None:
             logo = simsIfrcLogos[languageChoice]
-            logoSvg = os.path.join(self.dataPath, u'img', logo)
+            logoSvg = os.path.join(self.dataPath, 'img', logo)
             picture.setPicturePath(logoSvg)
 
         # set date
-        label = self.getItemById(layout, u'RC_date')
+        label = self.getItemById(layout, 'RC_date')
         if label is not None:
             now = datetime.now()
             month = simsMonths[languageChoice][now.month]
             label.setText(now.strftime('%d {} %Y').format(month))
 
         # set North Arrow
-        picture = self.getItemById(layout, u'RC_northarrow')
+        picture = self.getItemById(layout, 'RC_northarrow')
         if picture is not None:
-            logoSvg = os.path.join(QgsApplication.pkgDataPath(), u'svg', u'arrows', u'NorthArrow_02.svg')
+            logoSvg = os.path.join(QgsApplication.pkgDataPath(), 'svg', 'arrows', 'NorthArrow_02.svg')
             picture.setPicturePath(logoSvg)
 
         # clear default label values
@@ -403,14 +421,14 @@ class SimsMaps:
 
     def getTitleblockWidget(self, designer, name):
             if name is not None:
-                widget = eval(u'designer.titleblockDialog.{0}'.format(name))
+                widget = eval('designer.titleblockDialog.{0}'.format(name))
             else:
                 widget = None
             return widget
 
 
     def updateDesigner(self, designer):
-        print('updateDesigner')
+        #print('updateDesigner')
 
         for configurationItem in simsLayoutConfiguration:
             label = self.getTitleblockWidget(designer, configurationItem['label'])
@@ -427,32 +445,33 @@ class SimsMaps:
 
 
     def designerOpened(self, designer):
-        print(u'opened')
+        #print('opened')
 
-        dialogFile = os.path.join(self.pluginDir, u'edit_layout_dialog.ui')
+        dialogFile = os.path.join(self.pluginDir, 'edit_layout_dialog.ui')
         designer.dialog = loadUi(dialogFile)
         designer.dialog.buttonBox.accepted.connect(partial(self.updateDesigner, designer))
 
         tb = designer.actionsToolbar()
-        icon = QIcon(os.path.join(self.pluginDir, u'create_layout_crystal.svg'))
-        action = QAction(icon, u'Edit SIMS Layout', parent=designer)
+        icon = QIcon(os.path.join(self.pluginDir, 'create_layout_crystal.svg'))
+        action = QAction(icon, self.tr('Edit SIMS Layout'), parent=designer)
         action.triggered.connect(partial(self.editTitleblock, designer))
         tb.addAction(action)
 
-        titleblockUi = os.path.join(self.pluginDir, u'edit_layout_dialog.ui')
+        titleblockUi = os.path.join(self.pluginDir, 'edit_layout_dialog.ui')
         designer.titleblockDialog = loadUi(titleblockUi)
 
-        print(u'opened finished')
+        #print(u'opened finished')
 
 
     def designerClosed(self):
-        print(u'closed')
+        pass
+        #print('closed')
 
 
     def getItemById(self, layout, itemId):
         item = layout.itemById(itemId)
         if item is None:
-            print(u'Layout does not contain item: \'{0}\''.format(itemId))
+            #print('Layout does not contain item: \'{0}\''.format(itemId))
             return None
         return item
 
@@ -461,7 +480,7 @@ class SimsMaps:
         #self.createLayoutDialog.labelImagePreview.setAlignment(Qt.AlignCenter)
         #milis_logo.setAlignment(Qt.AlignCenter)
         filename = self.createLayoutDialog.comboBoxNsLogo.currentText()
-        filename = os.path.join(self.dataPath, u'logos', filename)
+        filename = os.path.join(self.dataPath, 'logos', filename)
         #print(filename)
         pm = QPixmap(filename)
         w = self.createLayoutDialog.labelImagePreview.width()

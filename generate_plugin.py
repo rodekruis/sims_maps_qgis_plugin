@@ -66,6 +66,10 @@ for file in files:
 # copy metadata TODO: auto update version
 shutil.copy2(os.path.join(srcDir, 'metadata.txt'), destDir)
 
+# copy i18n dir
+destI18nDir = os.path.join(destDir, 'i18n')
+shutil.copytree(os.path.join(srcDir, 'i18n'), destI18nDir)
+
 # copy data dir
 destDataDir = os.path.join(destDir, 'data')
 shutil.copytree(os.path.join(srcDir, 'data'), destDataDir)
