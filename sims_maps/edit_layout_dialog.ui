@@ -13,7 +13,9 @@
   <property name="windowTitle">
    <string>Edit SIMS Layout</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="modal">
+   <bool>true</bool>
+  </property>  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
