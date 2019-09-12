@@ -114,11 +114,20 @@ class SimsMaps:
         self.iface.layoutDesignerClosed.connect(self.designerClosed)
         self.actionCreateLayout.triggered.connect(self.showLayoutDialog)
         self.createLayoutDialog.comboBoxNsLogo.currentIndexChanged.connect(self.updateLabelPreview)
+        QgsProject.instance().readProject.connect(self.checkWorldLayer)
 
         # TODO: loop existing designers to add connections and actions
 
         #print(u'initGui finished')
 
+    def checkWorldLayer(self):
+        print('checkWorldLayer()')
+        for layerId in QgsProject.instance().mapLayers():
+            if self.worldLayerName in layerId:
+                print(u'ID match found!')
+                self.worldLayerId = layerId
+                return
+        self.worldLayerId = None
 
     def unload(self):
         try:
@@ -131,6 +140,10 @@ class SimsMaps:
             pass
         try:
             self.actionCreateLayout.triggered.disconnect()
+        except Exception:
+            pass
+        try:
+            QgsProject.instance().readProject.disconnect()
         except Exception:
             pass
         if self.pathPreprocessorId is not None:
