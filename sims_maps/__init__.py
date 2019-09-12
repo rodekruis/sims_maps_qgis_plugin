@@ -32,6 +32,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
 from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
+                       QgsPathResolver,
                        QgsPrintLayout,
                        QgsReadWriteContext,
                        QgsApplication,
@@ -60,12 +61,14 @@ class SimsMaps:
         self.dataPath = os.path.join(self.pluginDir, 'data')
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, 'logos', 'logos.csv'))
+        self.worldLayerPath = os.path.join(self.dataPath, u'sims_maps_resources.gpkg|layername=world_map')
         self.worldLayerId = None
         self.layoutBaseName = 'sims_layout'
 
         self.addIconPath()
         self.colorScheme = QgsSimsColorScheme()
         #self.addColorScheme()
+        self.pathPreprocessorId = QgsPathResolver.setPathPreprocessor(self.simsMapsPathPreprocessor)
 
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
@@ -129,7 +132,8 @@ class SimsMaps:
             self.actionCreateLayout.triggered.disconnect()
         except Exception:
             pass
-
+        if self.pathPreprocessorId is not None:
+            QgsPathResolver.removePathPreprocessor(self.pathPreprocessorId)
         # remove toolBar
         self.iface.removeToolBarIcon(self.actionCreateLayout)
         self.iface.mainWindow().removeToolBar(self.toolBar)
@@ -141,6 +145,28 @@ class SimsMaps:
 
         # TODO: loop designers to remove connections and actions
 
+    def simsMapsPathPreprocessor(self, path):
+        print(u'simsMapsPathPreprocessor()')
+        pluginParentPath, pluginFolder = os.path.split(self.pluginDir)
+
+        if not os.path.isfile(path):
+            allParts = []
+            while 1:
+                parts = os.path.split(path)
+                if parts[0] == path:
+                    allParts.insert(0, parts[0])
+                    break
+                elif parts[1] == path:
+                    allParts.insert(0, parts[1])
+                    break
+                else:
+                    path = parts[0]
+                    allParts.insert(0, parts[1])
+
+            if pluginFolder in allParts:
+                path = os.path.join(pluginParentPath, *allParts[allParts.index(pluginFolder):])
+
+        return path
 
     def addIconPath(self):
         print('addIconPath')
@@ -237,8 +263,8 @@ class SimsMaps:
                  pass
                  #print('World Layer not present')
 
-        layerName = self.tr('SIMS_world_overview')
         worldGpkg = os.path.join(self.dataPath, 'sims_maps_resources.gpkg' + '|layername=world_map')
+        layerName = 'SIMS_world_overview'
         layer = self.iface.addVectorLayer(worldGpkg, layerName, 'ogr')
         # TODO: set layer down in background
 
@@ -462,11 +488,9 @@ class SimsMaps:
 
         #print(u'opened finished')
 
-
     def designerClosed(self):
         pass
         #print('closed')
-
 
     def getItemById(self, layout, itemId):
         item = layout.itemById(itemId)
@@ -474,7 +498,6 @@ class SimsMaps:
             #print('Layout does not contain item: \'{0}\''.format(itemId))
             return None
         return item
-
 
     def updateLabelPreview(self):
         #self.createLayoutDialog.labelImagePreview.setAlignment(Qt.AlignCenter)
