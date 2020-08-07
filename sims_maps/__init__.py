@@ -44,7 +44,6 @@ from .logos import RcLogos
 from .layout_config import (simsLayoutConfiguration,
                             simsDisclamers,
                             simsLogoTexts,
-                            simsIfrcLogos,
                             simsMonths)
 from .sims_colors import QgsSimsColorScheme
 
@@ -387,8 +386,7 @@ class SimsMaps:
         # set IFRC logo
         picture = self.getItemById(layout, 'RC_logo2')
         if picture is not None:
-            logo = simsIfrcLogos[languageChoice]
-            logoSvg = os.path.join(self.dataPath, 'img', logo)
+            logoSvg = os.path.join(self.dataPath, 'img', 'IFRC_logo_English_horizontal_nogaps.svg')
             picture.setPicturePath(logoSvg)
 
         # set date
