@@ -43,7 +43,6 @@ from qgis.core import (QgsProject,
 from .logos import RcLogos
 from .layout_config import (simsLayoutConfiguration,
                             simsDisclamers,
-                            simsLogoTexts,
                             simsMonths)
 from .sims_colors import QgsSimsColorScheme
 
@@ -348,10 +347,6 @@ class SimsMaps:
         label = self.getItemById(layout, 'RC_disclaimer')
         if label is not None:
             label.setText(simsDisclamers[languageChoice])
-
-        label = self.getItemById(layout, 'RC_logotext')
-        if label is not None:
-            label.setText(simsLogoTexts[languageChoice])
 
         # set title
         label = self.getItemById(layout, 'RC_title')
