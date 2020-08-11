@@ -381,7 +381,7 @@ class SimsMaps:
         # set IFRC logo
         picture = self.getItemById(layout, 'RC_logo2')
         if picture is not None:
-            logoSvg = os.path.join(self.dataPath, 'img', 'IFRC_logo_English_horizontal_nogaps.svg')
+            logoSvg = os.path.join(self.dataPath, 'img', 'IFRC_logo_English_horizontal_no_gaps.svg')
             picture.setPicturePath(logoSvg)
 
         # set date
