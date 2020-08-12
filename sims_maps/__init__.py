@@ -43,8 +43,6 @@ from qgis.core import (QgsProject,
 from .logos import RcLogos
 from .layout_config import (simsLayoutConfiguration,
                             simsDisclamers,
-                            simsLogoTexts,
-                            simsIfrcLogos,
                             simsMonths)
 from .sims_colors import QgsSimsColorScheme
 
@@ -350,10 +348,6 @@ class SimsMaps:
         if label is not None:
             label.setText(simsDisclamers[languageChoice])
 
-        label = self.getItemById(layout, 'RC_logotext')
-        if label is not None:
-            label.setText(simsLogoTexts[languageChoice])
-
         # set title
         label = self.getItemById(layout, 'RC_title')
         if label is not None:
@@ -387,8 +381,7 @@ class SimsMaps:
         # set IFRC logo
         picture = self.getItemById(layout, 'RC_logo2')
         if picture is not None:
-            logo = simsIfrcLogos[languageChoice]
-            logoSvg = os.path.join(self.dataPath, 'img', logo)
+            logoSvg = os.path.join(self.dataPath, 'img', 'IFRC_logo_English_horizontal_no_gaps.svg')
             picture.setPicturePath(logoSvg)
 
         # set date
