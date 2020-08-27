@@ -15,6 +15,8 @@
 import os
 from datetime import datetime
 from functools import partial
+import urllib.request
+import configparser
 
 from PyQt5.QtWidgets import (QAction,
                              QMessageBox,
@@ -86,6 +88,8 @@ class SimsMaps:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
+        self.checkVersion()
+
 
     def tr(self, message):
         return QCoreApplication.translate('SimsMaps', message)
@@ -144,6 +148,7 @@ class SimsMaps:
         self.removeWorldLayer()
 
         # TODO: loop designers to remove connections and actions
+
 
     def simsMapsPathPreprocessor(self, path):
         print(u'simsMapsPathPreprocessor()')
@@ -279,6 +284,43 @@ class SimsMaps:
              except KeyError:
                  pass
                  #print(u'World Layer not present')
+
+
+    def findVersion(self, location):
+        ''' tries to get the plugin version from the metadata.txt on github ('repo') or locally ('local')'''
+        cp = configparser.ConfigParser()
+        if location == 'local':
+            fn = os.path.join(self.pluginDir, 'metadata.txt')
+            cp.read(fn)
+        elif location == 'repo':
+            url = 'https://raw.githubusercontent.com/rodekruis/sims_maps_qgis_plugin/master/sims_maps/metadata.txt'
+            try:
+                contents = urllib.request.urlopen(url).read()
+                cp.read_string(contents.decode())
+            except:
+                print('could not get metadata.txt from repo')
+                return
+        try:
+            return cp['general']['version']
+        except:
+            print('could not find version')
+        return
+
+
+    def checkVersion(self):
+        ''' Checks for newer version in git repo and reports if available'''
+        local_version = self.findVersion('local')
+        if local_version is None:
+            return
+        repo_version = self.findVersion('repo')
+        if repo_version is None:
+            return
+        if not local_version == repo_version: # No fancy pancy things with numbers, just asume that the repo version is newer if not equal
+            msg = f'A newer version ({repo_version} exists. (You are using {local_version}))'
+            self.iface.messageBar().pushWarning('SIMS-plugin update', msg)
+        else:
+            msg = f'(You are using the latest version ({local_version}))'
+            #self.iface.messageBar().pushInfo('SIMS-plugin update', msg) # Showing this would annoy users
 
 
     def createLayout(self):
