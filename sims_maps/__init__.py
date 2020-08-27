@@ -313,7 +313,7 @@ class SimsMaps:
         if repo_version is None:
             return
         if not local_version == repo_version: # No fancy pancy things with numbers, just asume that the repo version is newer if not equal
-            msg = f'A newer version ({repo_version} exists. (You are using {local_version}))'
+            msg = f'A newer version ({repo_version}) exists. (You are using {local_version})'
             self.iface.messageBar().pushWarning('SIMS-plugin update', msg)
         else:
             msg = f'(You are using the latest version ({local_version}))'
