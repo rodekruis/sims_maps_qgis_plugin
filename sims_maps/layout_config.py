@@ -5,19 +5,6 @@ simsLayoutConfiguration = [
     {u'code': u'RC_glidenumber', u'label': u'labelRcGlideNumber', u'edit': u'lineEditRcGlideNumber', u'default': u''}
 ]
 
-simsLogoTexts = {
-    u'en': u'''International Federation of Red Cross and Red Crescent Societies''',
-    u'es': u'''Federación Internacional de la Sociedades de la Cruz Roja y de la Media Luna Roja''',
-    u'fr': u'''Fédération internationale des Sociétés de la Croix-Rouge et du Croissant-Rouge'''
-}
-
-simsIfrcLogos = {
-    u'ar': u'''IFRC_logo_Arabic_RGB.jpg''',
-    u'en': u'''IFRC_logo_English_CMYK.svg''',
-    u'es': u'''IFRC_logo_Spanish_CMYK.svg''',
-    u'fr': u'''IFRC_logo_French_CMYK.svg'''
-}
-
 simsDisclamers = {
     u'en': u'''The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Societies concerning the legal status of a territory or of its authorities.''',
     u'es': u'''Los mapas utilizados no implican la expresión de ninguna opinión por parte de la Federación Internacional de Sociedades de la Cruz Roja y de la Media Luna Roja o las Sociedades Nacionales sobre las condiciones jurídicas de un territorio o de sus autoridades''',
