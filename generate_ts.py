@@ -12,7 +12,7 @@ sourceString = ' '.join(pathSourceFiles)
 #print(sourceString)
 
 for language in languages:
-    destFile = os.path.join(sourceDir, i18nDir, 'sims_maps_{}.ts'.format(language))
-    cmd = 'pylupdate5 -noobsolete {} -ts {}'.format(sourceString, destFile)
+    destFile = os.path.join(sourceDir, i18nDir, f'sims_maps_{language}.ts')
+    cmd = f'pylupdate5 -noobsolete {sourceString} -ts {destFile}'
     print(cmd)
     os.system(cmd)

@@ -9,7 +9,7 @@ class QgsSimsColorScheme(QgsColorScheme):
 
 
     def schemeName(self):
-        return "SIMS Colors"
+        return 'SIMS Colors'
 
 
     def fetchColors(self,context='', basecolor=QColor()):

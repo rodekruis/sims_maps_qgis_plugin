@@ -61,7 +61,7 @@ class SimsMaps:
         self.dataPath = os.path.join(self.pluginDir, 'data')
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, 'logos', 'logos.csv'))
-        self.worldLayerPath = os.path.join(self.dataPath, u'sims_maps_resources.gpkg|layername=world_map')
+        self.worldLayerPath = os.path.join(self.dataPath, 'sims_maps_resources.gpkg|layername=world_map')
         self.worldLayerId = None
         self.layoutBaseName = 'sims_layout'
 
@@ -73,10 +73,7 @@ class SimsMaps:
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
         print(locale)
-        locale_path = os.path.join(
-            self.pluginDir,
-            'i18n',
-            'sims_maps_{}.qm'.format(locale))
+        locale_path = os.path.join(self.pluginDir, 'i18n', f'sims_maps_{locale}.qm')
         print(locale_path)
 
         if os.path.exists(locale_path):
@@ -149,7 +146,7 @@ class SimsMaps:
 
 
     def simsMapsPathPreprocessor(self, path):
-        print(u'simsMapsPathPreprocessor()')
+        print('simsMapsPathPreprocessor()')
         pluginParentPath, pluginFolder = os.path.split(self.pluginDir)
 
         if pluginFolder in path:
@@ -235,7 +232,7 @@ class SimsMaps:
 
         # templates
         for file in sorted(os.listdir(self.dataPath), reverse=True):
-            if file.endswith(u'.qpt'):
+            if file.endswith('.qpt'):
                 cb.addItem(file)
 
         # ns logos
@@ -280,11 +277,11 @@ class SimsMaps:
                   QgsProject.instance().removeMapLayers([self.worldLayerId])
              except KeyError:
                  pass
-                 #print(u'World Layer not present')
+                 #print('World Layer not present')
 
 
     def findVersion(self, location):
-        ''' tries to get the plugin version from the metadata.txt on github ('repo') or locally ('local')'''
+        """tries to get the plugin version from the metadata.txt on github ('repo') or locally ('local')"""
         cp = configparser.ConfigParser()
         if location == 'local':
             fn = os.path.join(self.pluginDir, 'metadata.txt')
@@ -305,7 +302,7 @@ class SimsMaps:
 
 
     def checkVersion(self):
-        ''' Checks for newer version in git repo and reports if available'''
+        """Checks for newer version in git repo and reports if available"""
         local_version = self.findVersion('local')
         if local_version is None:
             return
@@ -333,7 +330,7 @@ class SimsMaps:
 
         oldLayout = layoutManager.layoutByName(layoutName)
         if oldLayout is not None:
-            #print('removing: {}'.format(oldLayout))
+            #print(f'removing: {oldLayout}')
             layoutManager.removeLayout(oldLayout)
 
         # create new layout
@@ -369,7 +366,7 @@ class SimsMaps:
             map.setKeepLayerSet(True)
             map.setLayers([worldLayer])
 
-            overviewCrs = QgsCoordinateReferenceSystem("EPSG:54030")
+            overviewCrs = QgsCoordinateReferenceSystem('EPSG:54030')
             map.setCrs(overviewCrs)
 
             extent = worldLayer.extent()
@@ -431,7 +428,7 @@ class SimsMaps:
         if label is not None:
             now = datetime.now()
             month = simsMonths[languageChoice][now.month]
-            label.setText(now.strftime('%d {} %Y').format(month))
+            label.setText(now.strftime(f'%d {month} %Y'))
 
         # set North Arrow
         picture = self.getItemById(layout, 'RC_northarrow')
@@ -481,7 +478,7 @@ class SimsMaps:
 
     def getTitleblockWidget(self, designer, name):
             if name is not None:
-                widget = eval('designer.titleblockDialog.{0}'.format(name))
+                widget = eval(f'designer.titleblockDialog.{name}')
             else:
                 widget = None
             return widget
@@ -520,7 +517,7 @@ class SimsMaps:
         titleblockUi = os.path.join(self.pluginDir, 'edit_layout_dialog.ui')
         designer.titleblockDialog = loadUi(titleblockUi)
 
-        #print(u'opened finished')
+        #print('opened finished')
 
     def designerClosed(self):
         pass
@@ -529,7 +526,7 @@ class SimsMaps:
     def getItemById(self, layout, itemId):
         item = layout.itemById(itemId)
         if item is None:
-            #print('Layout does not contain item: \'{0}\''.format(itemId))
+            #print('Layout does not contain item: \'{itemId}\'')
             return None
         return item
 
