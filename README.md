@@ -55,10 +55,11 @@ New languages can be added by adding the country code to the languages list some
 
 * Either copy this directory to your qgis3 plugin directory or create a symbolic link in your plugin directory:
 
-```
-cd /home/USER/.local/share/QGIS/QGIS3/profiles/default/python/plugins
-ln -s ~/git/sims_maps_qgis_plugin/sims_maps_generated/ sims_maps
-```
+    ```bash
+    cd /home/USER/.local/share/QGIS/QGIS3/profiles/default/python/plugins
+    ln -s ~/git/sims_maps_qgis_plugin/sims_maps_generated/ sims_maps_generated
+    ```
+    *NOTE: to prevent a [serious bug](https://github.com/rodekruis/sims_maps_qgis_plugin/issues/39) the symbolic link should have the same as plugin directory e.g: sims_map_generated*
 
 * Start or restart QGIS3. Reload the plugin with the experimental "Plugin Reloader" plugin.
 
