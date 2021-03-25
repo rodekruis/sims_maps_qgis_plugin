@@ -19,10 +19,8 @@ import urllib.request
 import configparser
 
 from PyQt5.QtWidgets import (QAction,
-                             QMessageBox,
                              QLineEdit,
-                             QCheckBox,
-                             QToolButton)
+                             QCheckBox)
 from PyQt5.QtCore import (QFile,
                           Qt,
                           QSettings,
@@ -32,14 +30,12 @@ from PyQt5.QtCore import (QFile,
 from PyQt5.QtXml import QDomDocument
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
-from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
                        QgsPathResolver,
                        QgsPrintLayout,
                        QgsReadWriteContext,
                        QgsApplication,
                        QgsLayoutItemLabel,
-                       QgsVectorLayer,
                        QgsCoordinateReferenceSystem,
                        QgsCoordinateTransform)
 from .logos import RcLogos

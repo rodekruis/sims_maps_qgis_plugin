@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 languages = ['nl']
 sourceFiles = ['__init__.py', 'create_layout_dialog.ui', 'edit_layout_dialog.ui']

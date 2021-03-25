@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 sourceDir = 'sims_maps'
 i18nDir = 'i18n'
