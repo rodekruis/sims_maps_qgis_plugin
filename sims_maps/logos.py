@@ -7,14 +7,14 @@ class RcLogos():
 
 
     def __str__(self):
-        result = u'RcLogos['
+        result = 'RcLogos['
         result += len(self.logos)
-        result += u']'
+        result += ']'
         return result
 
 
     def readFromCsv(self, filename):
-        csvFile = open(filename, encoding=u'utf-8', mode=u'r', newline=u'')
+        csvFile = open(filename, encoding='utf-8', mode='r', newline='')
         csvReader = csv.reader(csvFile, delimiter=';', quotechar='"')
 
         self.logos = []
