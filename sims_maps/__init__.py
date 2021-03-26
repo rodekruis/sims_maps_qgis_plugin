@@ -17,6 +17,7 @@ from datetime import datetime
 from functools import partial
 import urllib.request
 import configparser
+import base64
 
 from PyQt5.QtWidgets import (QAction,
                              QLineEdit,
@@ -36,6 +37,7 @@ from qgis.core import (QgsProject,
                        QgsReadWriteContext,
                        QgsApplication,
                        QgsLayoutItemLabel,
+                       QgsLayoutItemPicture,
                        QgsCoordinateReferenceSystem,
                        QgsCoordinateTransform)
 from .logos import RcLogos
@@ -411,13 +413,13 @@ class SimsMaps:
         if picture is not None:
             logoChoice = self.createLayoutDialog.comboBoxNsLogo.currentText()
             logoSvg = os.path.join(self.dataPath, 'logos', logoChoice)
-            picture.setPicturePath(logoSvg)
+            picture.setPicturePath(self.toEmbeddable(logoSvg), QgsLayoutItemPicture.FormatSVG)
 
         # set IFRC logo
         picture = self.getItemById(layout, 'RC_logo2')
         if picture is not None:
             logoSvg = os.path.join(self.dataPath, 'img', 'IFRC_logo_English_horizontal_no_gaps.svg')
-            picture.setPicturePath(logoSvg)
+            picture.setPicturePath(self.toEmbeddable(logoSvg), QgsLayoutItemPicture.FormatSVG)
 
         # set date
         label = self.getItemById(layout, 'RC_date')
@@ -430,7 +432,7 @@ class SimsMaps:
         picture = self.getItemById(layout, 'RC_northarrow')
         if picture is not None:
             logoSvg = os.path.join(QgsApplication.pkgDataPath(), 'svg', 'arrows', 'NorthArrow_02.svg')
-            picture.setPicturePath(logoSvg)
+            picture.setPicturePath(self.toEmbeddable(logoSvg), QgsLayoutItemPicture.FormatSVG)
 
         # clear default label values
 
@@ -536,3 +538,10 @@ class SimsMaps:
         w = self.createLayoutDialog.labelImagePreview.width()
         h = self.createLayoutDialog.labelImagePreview.height()
         self.createLayoutDialog.labelImagePreview.setPixmap(pm.scaled(w, h, Qt.KeepAspectRatio))
+
+    def toEmbeddable(self, filePath):
+        """Creates a base64-encoded string from a file that is suitable as an embedded resource in QGIS projects."""
+        with open(filePath, 'rb') as f:
+            file = f.read()
+        encoded = base64.b64encode(file).decode('utf-8')
+        return f'base64:{encoded}'  # base64 prefix is needed for QGIS to recognize the embedded resource
