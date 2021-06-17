@@ -15,12 +15,13 @@
 import os
 from datetime import datetime
 from functools import partial
+import urllib.request
+import configparser
+import base64
 
 from PyQt5.QtWidgets import (QAction,
-                             QMessageBox,
                              QLineEdit,
-                             QCheckBox,
-                             QToolButton)
+                             QCheckBox)
 from PyQt5.QtCore import (QFile,
                           Qt,
                           QSettings,
@@ -30,14 +31,13 @@ from PyQt5.QtCore import (QFile,
 from PyQt5.QtXml import QDomDocument
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.uic import loadUi
-from qgis.gui import QgsLayoutDesignerInterface
 from qgis.core import (QgsProject,
                        QgsPathResolver,
                        QgsPrintLayout,
                        QgsReadWriteContext,
                        QgsApplication,
                        QgsLayoutItemLabel,
-                       QgsVectorLayer,
+                       QgsLayoutItemPicture,
                        QgsCoordinateReferenceSystem,
                        QgsCoordinateTransform)
 from .logos import RcLogos
@@ -59,7 +59,7 @@ class SimsMaps:
         self.dataPath = os.path.join(self.pluginDir, 'data')
         self.logos = RcLogos()
         self.logos.readFromCsv(os.path.join(self.dataPath, 'logos', 'logos.csv'))
-        self.worldLayerPath = os.path.join(self.dataPath, u'sims_maps_resources.gpkg|layername=world_map')
+        self.worldLayerPath = os.path.join(self.dataPath, 'sims_maps_resources.gpkg|layername=world_map')
         self.worldLayerId = None
         self.layoutBaseName = 'sims_layout'
 
@@ -71,10 +71,7 @@ class SimsMaps:
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
         print(locale)
-        locale_path = os.path.join(
-            self.pluginDir,
-            'i18n',
-            'sims_maps_{}.qm'.format(locale))
+        locale_path = os.path.join(self.pluginDir, 'i18n', f'sims_maps_{locale}.qm')
         print(locale_path)
 
         if os.path.exists(locale_path):
@@ -83,6 +80,8 @@ class SimsMaps:
 
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
+
+        self.checkVersion()
 
 
     def tr(self, message):
@@ -143,8 +142,9 @@ class SimsMaps:
 
         # TODO: loop designers to remove connections and actions
 
+
     def simsMapsPathPreprocessor(self, path):
-        print(u'simsMapsPathPreprocessor()')
+        print('simsMapsPathPreprocessor()')
         pluginParentPath, pluginFolder = os.path.split(self.pluginDir)
 
         if pluginFolder in path:
@@ -230,7 +230,7 @@ class SimsMaps:
 
         # templates
         for file in sorted(os.listdir(self.dataPath), reverse=True):
-            if file.endswith(u'.qpt'):
+            if file.endswith('.qpt'):
                 cb.addItem(file)
 
         # ns logos
@@ -275,7 +275,44 @@ class SimsMaps:
                   QgsProject.instance().removeMapLayers([self.worldLayerId])
              except KeyError:
                  pass
-                 #print(u'World Layer not present')
+                 #print('World Layer not present')
+
+
+    def findVersion(self, location):
+        """tries to get the plugin version from the metadata.txt on github ('repo') or locally ('local')"""
+        cp = configparser.ConfigParser()
+        if location == 'local':
+            fn = os.path.join(self.pluginDir, 'metadata.txt')
+            cp.read(fn)
+        elif location == 'repo':
+            url = 'https://raw.githubusercontent.com/rodekruis/sims_maps_qgis_plugin/master/sims_maps/metadata.txt'
+            try:
+                contents = urllib.request.urlopen(url).read()
+                cp.read_string(contents.decode())
+            except:
+                print('could not get metadata.txt from repo')
+                return
+        try:
+            return cp['general']['version']
+        except:
+            print('could not find version')
+        return
+
+
+    def checkVersion(self):
+        """Checks for newer version in git repo and reports if available"""
+        local_version = self.findVersion('local')
+        if local_version is None:
+            return
+        repo_version = self.findVersion('repo')
+        if repo_version is None:
+            return
+        if not local_version == repo_version: # No fancy pancy things with numbers, just asume that the repo version is newer if not equal
+            msg = f'A newer version ({repo_version}) exists. (You are using {local_version})'
+            self.iface.messageBar().pushWarning('SIMS-plugin update', msg)
+        else:
+            msg = f'(You are using the latest version ({local_version}))'
+            #self.iface.messageBar().pushInfo('SIMS-plugin update', msg) # Showing this would annoy users
 
 
     def createLayout(self):
@@ -291,7 +328,7 @@ class SimsMaps:
 
         oldLayout = layoutManager.layoutByName(layoutName)
         if oldLayout is not None:
-            #print('removing: {}'.format(oldLayout))
+            #print(f'removing: {oldLayout}')
             layoutManager.removeLayout(oldLayout)
 
         # create new layout
@@ -327,7 +364,7 @@ class SimsMaps:
             map.setKeepLayerSet(True)
             map.setLayers([worldLayer])
 
-            overviewCrs = QgsCoordinateReferenceSystem("EPSG:54030")
+            overviewCrs = QgsCoordinateReferenceSystem('EPSG:54030')
             map.setCrs(overviewCrs)
 
             extent = worldLayer.extent()
@@ -376,26 +413,26 @@ class SimsMaps:
         if picture is not None:
             logoChoice = self.createLayoutDialog.comboBoxNsLogo.currentText()
             logoSvg = os.path.join(self.dataPath, 'logos', logoChoice)
-            picture.setPicturePath(logoSvg)
+            picture.setPicturePath(self.toEmbeddable(logoSvg), QgsLayoutItemPicture.FormatSVG)
 
         # set IFRC logo
         picture = self.getItemById(layout, 'RC_logo2')
         if picture is not None:
             logoSvg = os.path.join(self.dataPath, 'img', 'IFRC_logo_English_horizontal_no_gaps.svg')
-            picture.setPicturePath(logoSvg)
+            picture.setPicturePath(self.toEmbeddable(logoSvg), QgsLayoutItemPicture.FormatSVG)
 
         # set date
         label = self.getItemById(layout, 'RC_date')
         if label is not None:
             now = datetime.now()
             month = simsMonths[languageChoice][now.month]
-            label.setText(now.strftime('%d {} %Y').format(month))
+            label.setText(now.strftime(f'%d {month} %Y'))
 
         # set North Arrow
         picture = self.getItemById(layout, 'RC_northarrow')
         if picture is not None:
             logoSvg = os.path.join(QgsApplication.pkgDataPath(), 'svg', 'arrows', 'NorthArrow_02.svg')
-            picture.setPicturePath(logoSvg)
+            picture.setPicturePath(self.toEmbeddable(logoSvg), QgsLayoutItemPicture.FormatSVG)
 
         # clear default label values
 
@@ -439,7 +476,7 @@ class SimsMaps:
 
     def getTitleblockWidget(self, designer, name):
             if name is not None:
-                widget = eval('designer.titleblockDialog.{0}'.format(name))
+                widget = eval(f'designer.titleblockDialog.{name}')
             else:
                 widget = None
             return widget
@@ -478,7 +515,7 @@ class SimsMaps:
         titleblockUi = os.path.join(self.pluginDir, 'edit_layout_dialog.ui')
         designer.titleblockDialog = loadUi(titleblockUi)
 
-        #print(u'opened finished')
+        #print('opened finished')
 
     def designerClosed(self):
         pass
@@ -487,7 +524,7 @@ class SimsMaps:
     def getItemById(self, layout, itemId):
         item = layout.itemById(itemId)
         if item is None:
-            #print('Layout does not contain item: \'{0}\''.format(itemId))
+            #print('Layout does not contain item: \'{itemId}\'')
             return None
         return item
 
@@ -501,3 +538,10 @@ class SimsMaps:
         w = self.createLayoutDialog.labelImagePreview.width()
         h = self.createLayoutDialog.labelImagePreview.height()
         self.createLayoutDialog.labelImagePreview.setPixmap(pm.scaled(w, h, Qt.KeepAspectRatio))
+
+    def toEmbeddable(self, filePath):
+        """Creates a base64-encoded string from a file that is suitable as an embedded resource in QGIS projects."""
+        with open(filePath, 'rb') as f:
+            file = f.read()
+        encoded = base64.b64encode(file).decode('utf-8')
+        return f'base64:{encoded}'  # base64 prefix is needed for QGIS to recognize the embedded resource
