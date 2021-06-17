@@ -3,6 +3,7 @@ name=SIMS Map Layouts
 description=Plugin for creating SIMS map layouts
 version=1.0.1
 qgisMinimumVersion=3.10
+qgisMinimumVersion=3.99
 author=510, an initiative of The Netherlands Red Cross
 email=rnijssen@rodekruis.nl
 
