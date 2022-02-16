@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl">
+<!DOCTYPE TS><TS version="2.0" language="nl" sourcelanguage="">
 <context>
     <name>Dialog</name>
     <message>
@@ -92,12 +91,7 @@
         <translation>SIMS Layout aanmaken</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="240"/>
-        <source>SIMS_world_overview</source>
-        <translation>SIMS Wereldkaart</translation>
-    </message>
-    <message>
-        <location filename="../__init__.py" line="457"/>
+        <location filename="../__init__.py" line="511"/>
         <source>Edit SIMS Layout</source>
         <translation>SIMS Layout wijzigen</translation>
     </message>
