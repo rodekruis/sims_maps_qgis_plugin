@@ -10,6 +10,7 @@ The plugin is not available in the standard QGIS plugin repository for safety re
 * Download the latest .zip file from the release directory: https://github.com/rodekruis/sims_maps_qgis_plugin/tree/master/releases
 * Then open the Plugin Manager in QGIS and choose "Install from zip"
 * Choose your local .zip and Install
+* An extra button will appear in your QGIS toolbar: ![button icin](https://github.com/rodekruis/sims_maps_qgis_plugin/blob/master/sims_maps/create_layout_crystal.svg "button icon")  
 
 ## User Guide
 
