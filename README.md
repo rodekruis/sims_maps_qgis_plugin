@@ -3,6 +3,14 @@
 This plugin will make life easier for those who need to make RCRC SIMS maps. It will help getting the layout done in
 a fast and consistent way. The plugin will run in QGIS3 versions from 3.4.0 and up.
 
+## Installing the plugin
+
+The plugin is not available in the standard QGIS plugin repository for safety reasons. (Not everyone should be able to simply make a Red Cross map.)
+
+* Download the latest .zip file from the release directory: https://github.com/rodekruis/sims_maps_qgis_plugin/tree/master/releases
+* Then open the Plugin Manager in QGIS and choose "Install from zip"
+* Choose your local .zip and Install
+
 ## User Guide
 
 * The plugin add the SIMS colors to the standard QGIS color picker, for use
@@ -27,12 +35,6 @@ the same machine, because the install path contains the version name.
 
 We are currently working on an improvement that addresses the above, but the problem stems from QGIS itself and how it handles dataset file paths in the project file.
 Thus it will need a change in the QGIS source code itself.
-
-## Installing the plugin
-
-The plugin is not available in the standard QGIS plugin repository for safety reasons. (Not everyone should be able to simply make a Red Cross map.)
-
-You can install the plugin by downloading the latest .zip file from the release directory. Then open the Plugin Manager in QGIS and choose "Install from zip".
 
 ## Set up development environment
 
