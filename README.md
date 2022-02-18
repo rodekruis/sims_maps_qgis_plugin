@@ -28,7 +28,15 @@ the same machine, because the install path contains the version name.
 We are currently working on an improvement that addresses the above, but the problem stems from QGIS itself and how it handles dataset file paths in the project file.
 Thus it will need a change in the QGIS source code itself.
 
-## Setup development environment
+## Installing the plugin
+
+The plugin is not available in the standard QGIS plugin repository for safety reasons. (Not everyone should be able to simply make a Red Cross map.)
+
+You can install the plugin by downloading the latest .zip file from the release directory. Then open the Plugin Manager in QGIS and choose "Install from zip".
+
+## Set up development environment
+
+If you would like to contribute to this plugin you can set up the environment on your local device. This has only been tested on Linux.
 
 * Clone this git repository
 * Clone IFRC icon git repository in same directory: https://github.com/IFRCGo/IFRC-Icons
