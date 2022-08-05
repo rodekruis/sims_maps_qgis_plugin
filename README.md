@@ -20,7 +20,7 @@ anywhere in QGIS.
 * The plugin adds the OCHA 2012 and 2018 icons for use in an SVG symbology.
 
 * The "Create SIMS Map Layout" button in the QGIS toolbar generates and opens a
-layout based on chosen template. You can choose the NS logo, the plugin name and
+layout based on chosen template. You can choose the NS logo, the layout name and
 the language.
 
 * The "Edit Layout" button in the layout window allows you to easily change
